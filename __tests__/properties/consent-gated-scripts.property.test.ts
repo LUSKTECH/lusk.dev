@@ -14,8 +14,8 @@ const arbCookieConsentState: fc.Arbitrary<CookieConsentState> = fc.record({
   marketing: fc.boolean(),
   region: fc.constantFrom('eu' as const, 'ccpa' as const, 'general' as const),
   consentedAt: fc
-    .date({ min: new Date('2000-01-01'), max: new Date('2099-12-31') })
-    .map((d) => d.toISOString()),
+    .integer({ min: 946684800000, max: 4102444800000 })
+    .map((ts) => new Date(ts).toISOString()),
   version: fc.stringMatching(/^\d+\.\d+$/),
 });
 
