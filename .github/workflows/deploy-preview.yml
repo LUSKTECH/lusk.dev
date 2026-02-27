@@ -93,7 +93,7 @@ jobs:
         with:
           publish-dir: ./out
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          deploy-message: "Preview deploy from PR #${{ github.event.pull_request.number }}"
+          deploy-message: 'Preview deploy from PR #${{ github.event.pull_request.number }}'
           enable-pull-request-comment: true
           enable-commit-comment: false
         env:

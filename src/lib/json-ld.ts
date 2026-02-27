@@ -13,11 +13,11 @@ export interface SiteMetadata {
 }
 
 export function generateOrganizationJsonLd(
-  metadata: SiteMetadata
+  metadata: SiteMetadata,
 ): Record<string, unknown> {
   return {
-    "@context": "https://schema.org",
-    "@type": "Organization",
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
     name: metadata.organization.name,
     url: metadata.organization.url,
     logo: metadata.organization.logo,

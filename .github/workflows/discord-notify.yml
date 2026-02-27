@@ -2,7 +2,7 @@ name: Discord Notification
 
 on:
   workflow_run:
-    workflows: ["CI", "Deploy Production"]
+    workflows: ['CI', 'Deploy Production']
     types: [completed]
 
 jobs:

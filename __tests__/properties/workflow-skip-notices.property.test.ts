@@ -1,9 +1,9 @@
 // Feature: website-template-repo, Property 8: Secret-guarded workflows log skip notices
 
-import { describe, it, expect } from "vitest";
-import fc from "fast-check";
-import fs from "node:fs";
-import path from "node:path";
+import { describe, it, expect } from 'vitest';
+import fc from 'fast-check';
+import fs from 'node:fs';
+import path from 'node:path';
 
 /**
  * Validates: Requirements 17.2
@@ -15,30 +15,30 @@ import path from "node:path";
  */
 const WORKFLOW_SECRET_PAIRS: Array<{ workflow: string; secret: string }> = [
   // security.yml
-  { workflow: "security.yml", secret: "TRIVY_ENABLED" },
-  { workflow: "security.yml", secret: "SNYK_TOKEN" },
-  { workflow: "security.yml", secret: "SAFETY_API_KEY" },
+  { workflow: 'security.yml', secret: 'TRIVY_ENABLED' },
+  { workflow: 'security.yml', secret: 'SNYK_TOKEN' },
+  { workflow: 'security.yml', secret: 'SAFETY_API_KEY' },
   // lighthouse.yml
-  { workflow: "lighthouse.yml", secret: "LHCI_GITHUB_APP_TOKEN" },
+  { workflow: 'lighthouse.yml', secret: 'LHCI_GITHUB_APP_TOKEN' },
   // deploy-preview.yml
-  { workflow: "deploy-preview.yml", secret: "VERCEL_TOKEN" },
-  { workflow: "deploy-preview.yml", secret: "NETLIFY_AUTH_TOKEN" },
+  { workflow: 'deploy-preview.yml', secret: 'VERCEL_TOKEN' },
+  { workflow: 'deploy-preview.yml', secret: 'NETLIFY_AUTH_TOKEN' },
   // deploy-production.yml
-  { workflow: "deploy-production.yml", secret: "VERCEL_TOKEN" },
-  { workflow: "deploy-production.yml", secret: "NETLIFY_AUTH_TOKEN" },
+  { workflow: 'deploy-production.yml', secret: 'VERCEL_TOKEN' },
+  { workflow: 'deploy-production.yml', secret: 'NETLIFY_AUTH_TOKEN' },
   // sonarqube.yml
-  { workflow: "sonarqube.yml", secret: "SONAR_TOKEN" },
+  { workflow: 'sonarqube.yml', secret: 'SONAR_TOKEN' },
   // qlty.yml
-  { workflow: "qlty.yml", secret: "QLTY_TOKEN" },
+  { workflow: 'qlty.yml', secret: 'QLTY_TOKEN' },
   // discord-notify.yml
-  { workflow: "discord-notify.yml", secret: "DISCORD_WEBHOOK_URL" },
+  { workflow: 'discord-notify.yml', secret: 'DISCORD_WEBHOOK_URL' },
   // ci.yml
-  { workflow: "ci.yml", secret: "CODECOV_TOKEN" },
+  { workflow: 'ci.yml', secret: 'CODECOV_TOKEN' },
 ];
 
-const WORKFLOWS_DIR = path.resolve(__dirname, "../../.github/workflows");
+const WORKFLOWS_DIR = path.resolve(__dirname, '../../.github/workflows');
 
-describe("Property 8: Secret-guarded workflows log skip notices", () => {
+describe('Property 8: Secret-guarded workflows log skip notices', () => {
   /**
    * Validates: Requirements 17.2
    *
@@ -46,7 +46,7 @@ describe("Property 8: Secret-guarded workflows log skip notices", () => {
    * job or step that logs a `::notice::` message naming the secret and
    * indicating the workflow was skipped.
    */
-  it("should contain a ::notice:: skip message mentioning the secret name", () => {
+  it('should contain a ::notice:: skip message mentioning the secret name', () => {
     fc.assert(
       fc.property(
         fc.constantFrom(...WORKFLOW_SECRET_PAIRS),
@@ -56,17 +56,16 @@ describe("Property 8: Secret-guarded workflows log skip notices", () => {
           // The workflow file must exist
           expect(fs.existsSync(filePath)).toBe(true);
 
-          const content = fs.readFileSync(filePath, "utf-8");
-          const contentLower = content.toLowerCase();
+          const content = fs.readFileSync(filePath, 'utf-8');
 
           // The file must contain a ::notice:: annotation
-          expect(content).toContain("::notice::");
+          expect(content).toContain('::notice::');
 
           // The ::notice:: message must reference the secret name
           // Find all ::notice:: lines and check at least one mentions this secret
-          const lines = content.split("\n");
+          const lines = content.split('\n');
           const noticeLines = lines.filter((line) =>
-            line.includes("::notice::"),
+            line.includes('::notice::'),
           );
 
           const hasSecretInNotice = noticeLines.some((line) =>
@@ -76,7 +75,7 @@ describe("Property 8: Secret-guarded workflows log skip notices", () => {
 
           // The ::notice:: message must mention "skipped" (case-insensitive)
           const hasSkippedInNotice = noticeLines.some((line) =>
-            line.toLowerCase().includes("skipped"),
+            line.toLowerCase().includes('skipped'),
           );
           expect(hasSkippedInNotice).toBe(true);
         },

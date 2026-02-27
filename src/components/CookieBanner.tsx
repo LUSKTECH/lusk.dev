@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import { useState, useEffect, useCallback } from "react";
-import type { CookieConsentState } from "@/lib/cookie-consent";
-import { classifyRegion, saveConsent, loadConsent } from "@/lib/cookie-consent";
+import { useState, useEffect, useCallback } from 'react';
+import type { CookieConsentState } from '@/lib/cookie-consent';
+import { classifyRegion, saveConsent, loadConsent } from '@/lib/cookie-consent';
 
 export interface CookieBannerProps {
   geolocationEndpoint?: string;
   onConsentChange?: (state: CookieConsentState) => void;
 }
 
-const DEFAULT_GEO_ENDPOINT = "https://ipapi.co/json/";
-const CONSENT_VERSION = "1.0";
+const DEFAULT_GEO_ENDPOINT = 'https://ipapi.co/json/';
+const CONSENT_VERSION = '1.0';
 
-type RegionType = CookieConsentState["region"];
+type RegionType = CookieConsentState['region'];
 
 function buildConsentState(
   region: RegionType,
@@ -30,50 +30,50 @@ function buildConsentState(
 }
 
 const bannerStyle: React.CSSProperties = {
-  position: "fixed",
+  position: 'fixed',
   bottom: 0,
   left: 0,
   right: 0,
-  backgroundColor: "#1a1a2e",
-  color: "#eee",
-  padding: "1rem 1.5rem",
+  backgroundColor: '#1a1a2e',
+  color: '#eee',
+  padding: '1rem 1.5rem',
   zIndex: 9999,
-  fontSize: "0.9rem",
+  fontSize: '0.9rem',
   lineHeight: 1.5,
 };
 
 const buttonRowStyle: React.CSSProperties = {
-  display: "flex",
-  gap: "0.5rem",
-  marginTop: "0.75rem",
-  flexWrap: "wrap",
+  display: 'flex',
+  gap: '0.5rem',
+  marginTop: '0.75rem',
+  flexWrap: 'wrap',
 };
 
 const primaryBtnStyle: React.CSSProperties = {
-  padding: "0.5rem 1rem",
-  border: "none",
-  borderRadius: "4px",
-  cursor: "pointer",
+  padding: '0.5rem 1rem',
+  border: 'none',
+  borderRadius: '4px',
+  cursor: 'pointer',
   fontWeight: 600,
-  fontSize: "0.85rem",
-  backgroundColor: "#4361ee",
-  color: "#fff",
+  fontSize: '0.85rem',
+  backgroundColor: '#4361ee',
+  color: '#fff',
 };
 
 const secondaryBtnStyle: React.CSSProperties = {
   ...primaryBtnStyle,
-  backgroundColor: "transparent",
-  border: "1px solid #888",
-  color: "#ccc",
+  backgroundColor: 'transparent',
+  border: '1px solid #888',
+  color: '#ccc',
 };
 
 const linkBtnStyle: React.CSSProperties = {
-  background: "none",
-  border: "none",
-  color: "#4cc9f0",
-  cursor: "pointer",
-  textDecoration: "underline",
-  fontSize: "0.85rem",
+  background: 'none',
+  border: 'none',
+  color: '#4cc9f0',
+  cursor: 'pointer',
+  textDecoration: 'underline',
+  fontSize: '0.85rem',
   padding: 0,
 };
 
@@ -209,12 +209,14 @@ export default function CookieBanner({
         const data = (await res.json()) as Record<string, unknown>;
 
         // ipapi.co returns country_code and region_code
-        const country = typeof data.country_code === "string" ? data.country_code : null;
-        const regionCode = typeof data.region_code === "string" ? data.region_code : null;
+        const country =
+          typeof data.country_code === 'string' ? data.country_code : null;
+        const regionCode =
+          typeof data.region_code === 'string' ? data.region_code : null;
 
         // Build a region identifier — e.g. "US-CA" for California
         let code: string | null = country;
-        if (country === "US" && regionCode) {
+        if (country === 'US' && regionCode) {
           code = `US-${regionCode}`;
         }
 
@@ -225,7 +227,7 @@ export default function CookieBanner({
       } catch {
         // Geolocation failed → default to most restrictive (GDPR)
         if (!cancelled) {
-          setRegion("eu");
+          setRegion('eu');
           setVisible(true);
         }
       }
@@ -274,7 +276,7 @@ export default function CookieBanner({
   if (!visible || !region) return null;
 
   switch (region) {
-    case "eu":
+    case 'eu':
       return (
         <GDPRBanner
           onAcceptAll={acceptAll}
@@ -282,7 +284,7 @@ export default function CookieBanner({
           onCustomize={customize}
         />
       );
-    case "ccpa":
+    case 'ccpa':
       return (
         <CCPABanner
           onAcceptAll={acceptAll}
@@ -291,7 +293,7 @@ export default function CookieBanner({
           onCustomize={customize}
         />
       );
-    case "general":
+    case 'general':
       return (
         <GeneralBanner
           onAcceptAll={acceptAll}

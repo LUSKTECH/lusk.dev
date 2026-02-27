@@ -1,13 +1,13 @@
-import type { Metadata } from "next";
-import Link from "next/link";
-import SEOHead from "@/components/SEOHead";
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import SEOHead from '@/components/SEOHead';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://example.com";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://example.com';
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | Lusk Technologies",
+  title: 'Privacy Policy | Lusk Technologies',
   description:
-    "Learn how Lusk Technologies collects, uses, and protects your personal data.",
+    'Learn how Lusk Technologies collects, uses, and protects your personal data.',
   alternates: {
     canonical: `${siteUrl}/privacy`,
   },
@@ -76,17 +76,15 @@ export default function PrivacyPolicyPage() {
         <section>
           <h2>Third-Party Sharing</h2>
           <p>
-            We do not sell your personal information. We may share your data with
-            third parties in the following circumstances:
+            We do not sell your personal information. We may share your data
+            with third parties in the following circumstances:
           </p>
           <ul>
             <li>
               With service providers who assist us in operating our website and
               conducting our business (e.g., analytics, hosting).
             </li>
-            <li>
-              When required by law, regulation, or legal process.
-            </li>
+            <li>When required by law, regulation, or legal process.</li>
             <li>
               To protect the rights, property, or safety of Lusk Technologies,
               our users, or the public.
@@ -109,8 +107,8 @@ export default function PrivacyPolicyPage() {
             </li>
             <li>The right to data portability.</li>
             <li>
-              The right to withdraw consent at any time where processing is based
-              on consent.
+              The right to withdraw consent at any time where processing is
+              based on consent.
             </li>
             <li>
               The right to opt out of the sale of personal information (for
@@ -135,8 +133,7 @@ export default function PrivacyPolicyPage() {
 
         <hr />
         <p>
-          Please also review our{" "}
-          <Link href="/terms">Terms of Service</Link>.
+          Please also review our <Link href="/terms">Terms of Service</Link>.
         </p>
       </main>
     </>

@@ -1,11 +1,13 @@
-"use client";
+'use client';
+
+import Link from 'next/link';
 
 interface ErrorPageProps {
   error: Error & { digest?: string };
   reset: () => void;
 }
 
-export default function ErrorPage({ error, reset }: ErrorPageProps) {
+export default function ErrorPage({ error: _error, reset }: ErrorPageProps) {
   return (
     <main>
       <h1>500 — Something Went Wrong</h1>
@@ -19,7 +21,7 @@ export default function ErrorPage({ error, reset }: ErrorPageProps) {
         </button>
       </p>
       <p>
-        <a href="/">Return to Home</a>
+        <Link href="/">Return to Home</Link>
       </p>
     </main>
   );

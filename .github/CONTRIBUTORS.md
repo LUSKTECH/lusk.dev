@@ -22,13 +22,13 @@ If you've contributed to this project, feel free to add yourself to the list bel
 
 ## Contribution Types
 
-| Emoji | Type |
-|-------|------|
-| 💻 | Code |
-| 📖 | Documentation |
-| 🐛 | Bug Reports |
-| 💡 | Ideas & Suggestions |
-| 🎨 | Design |
-| ⚠️ | Tests |
-| 🔧 | Maintenance |
-| 👀 | Review |
+| Emoji | Type                |
+| ----- | ------------------- |
+| 💻    | Code                |
+| 📖    | Documentation       |
+| 🐛    | Bug Reports         |
+| 💡    | Ideas & Suggestions |
+| 🎨    | Design              |
+| ⚠️    | Tests               |
+| 🔧    | Maintenance         |
+| 👀    | Review              |

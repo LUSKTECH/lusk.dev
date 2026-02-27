@@ -1,14 +1,14 @@
 // Feature: website-template-repo, Property 5: Axiom logger produces structured output
 
-import { describe, it, expect } from "vitest";
-import fc from "fast-check";
-import { createAxiomLogger } from "@/lib/axiom";
-import type { LogEntry, WebVitalsMetrics } from "@/lib/axiom";
+import { describe, it, expect } from 'vitest';
+import fc from 'fast-check';
+import { createAxiomLogger } from '@/lib/axiom';
+import type { LogEntry, WebVitalsMetrics } from '@/lib/axiom';
 
 /** Enabled Axiom config so the logger actually produces entries */
 const enabledConfig = {
-  token: "test-token",
-  dataset: "test-dataset",
+  token: 'test-token',
+  dataset: 'test-dataset',
   enabled: true,
 };
 
@@ -25,14 +25,14 @@ const arbWebVitalsMetrics: fc.Arbitrary<WebVitalsMetrics> = fc.record(
   { requiredKeys: [] },
 );
 
-describe("Property 5: Axiom logger produces structured output", () => {
+describe('Property 5: Axiom logger produces structured output', () => {
   /**
    * **Validates: Requirements 4.3**
    *
    * For any page path string, logPageView produces a structured entry
    * with type 'page-view', a valid timestamp, and the input path in data.
    */
-  it("logPageView produces structured entry with path and timestamp", () => {
+  it('logPageView produces structured entry with path and timestamp', () => {
     fc.assert(
       fc.property(fc.string(), (path) => {
         const entries: LogEntry[] = [];
@@ -42,8 +42,8 @@ describe("Property 5: Axiom logger produces structured output", () => {
 
         expect(entries).toHaveLength(1);
         const entry = entries[0];
-        expect(entry.type).toBe("page-view");
-        expect(typeof entry.timestamp).toBe("string");
+        expect(entry.type).toBe('page-view');
+        expect(typeof entry.timestamp).toBe('string');
         expect(entry.timestamp.length).toBeGreaterThan(0);
         expect(() => new Date(entry.timestamp)).not.toThrow();
         expect(entry.data.path).toBe(path);
@@ -58,7 +58,7 @@ describe("Property 5: Axiom logger produces structured output", () => {
    * For any Error object, logError produces a structured entry
    * with type 'error', a valid timestamp, and the error message in data.
    */
-  it("logError produces structured entry with error message and timestamp", () => {
+  it('logError produces structured entry with error message and timestamp', () => {
     fc.assert(
       fc.property(fc.string(), (message) => {
         const entries: LogEntry[] = [];
@@ -69,8 +69,8 @@ describe("Property 5: Axiom logger produces structured output", () => {
 
         expect(entries).toHaveLength(1);
         const entry = entries[0];
-        expect(entry.type).toBe("error");
-        expect(typeof entry.timestamp).toBe("string");
+        expect(entry.type).toBe('error');
+        expect(typeof entry.timestamp).toBe('string');
         expect(entry.timestamp.length).toBeGreaterThan(0);
         expect(() => new Date(entry.timestamp)).not.toThrow();
         expect(entry.data.message).toBe(error.message);
@@ -85,7 +85,7 @@ describe("Property 5: Axiom logger produces structured output", () => {
    * For any web vitals metrics, logWebVitals produces a structured entry
    * with type 'web-vitals', a valid timestamp, and the metrics in data.
    */
-  it("logWebVitals produces structured entry with metrics and timestamp", () => {
+  it('logWebVitals produces structured entry with metrics and timestamp', () => {
     fc.assert(
       fc.property(arbWebVitalsMetrics, (metrics) => {
         const entries: LogEntry[] = [];
@@ -95,8 +95,8 @@ describe("Property 5: Axiom logger produces structured output", () => {
 
         expect(entries).toHaveLength(1);
         const entry = entries[0];
-        expect(entry.type).toBe("web-vitals");
-        expect(typeof entry.timestamp).toBe("string");
+        expect(entry.type).toBe('web-vitals');
+        expect(typeof entry.timestamp).toBe('string');
         expect(entry.timestamp.length).toBeGreaterThan(0);
         expect(() => new Date(entry.timestamp)).not.toThrow();
 

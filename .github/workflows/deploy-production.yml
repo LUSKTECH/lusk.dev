@@ -95,7 +95,7 @@ jobs:
           publish-dir: ./out
           production-deploy: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          deploy-message: "Production deploy from ${{ github.sha }}"
+          deploy-message: 'Production deploy from ${{ github.sha }}'
           enable-pull-request-comment: false
           enable-commit-comment: true
         env:

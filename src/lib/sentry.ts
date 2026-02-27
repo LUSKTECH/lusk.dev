@@ -72,7 +72,7 @@ export function captureError(
 
   // In production, delegate to the actual Sentry SDK (loaded via entry points)
   // This dynamic import avoids bundling @sentry/nextjs when unused
-  void import("@sentry/nextjs").then((Sentry) => {
+  void import('@sentry/nextjs').then((Sentry) => {
     Sentry.captureException(error, {
       extra: context,
     });

@@ -1,20 +1,20 @@
 // Feature: website-template-repo, Property 4: Graceful degradation for missing integration env vars
 // @vitest-environment jsdom
 
-import { describe, it, expect, afterEach } from "vitest";
-import fc from "fast-check";
-import { initAnalytics } from "@/lib/analytics";
-import type { AnalyticsConfig } from "@/lib/analytics";
-import { createAxiomLogger } from "@/lib/axiom";
-import type { AxiomConfig, LogEntry, WebVitalsMetrics } from "@/lib/axiom";
+import { describe, it, expect, afterEach } from 'vitest';
+import fc from 'fast-check';
+import { initAnalytics } from '@/lib/analytics';
+import type { AnalyticsConfig } from '@/lib/analytics';
+import { createAxiomLogger } from '@/lib/axiom';
+import type { AxiomConfig, LogEntry, WebVitalsMetrics } from '@/lib/axiom';
 import {
   initSentry,
   captureError,
   resetSentry,
   type SentryConfig,
   type ErrorReport,
-} from "@/lib/sentry";
-import type { CookieConsentState } from "@/lib/cookie-consent";
+} from '@/lib/sentry';
+import type { CookieConsentState } from '@/lib/cookie-consent';
 
 /* ------------------------------------------------------------------ */
 /*  Arbitrary generators                                               */
@@ -23,11 +23,11 @@ import type { CookieConsentState } from "@/lib/cookie-consent";
 /** Disabled analytics config: enabled is always false, tokens may be empty */
 const arbDisabledAnalyticsConfig: fc.Arbitrary<AnalyticsConfig> = fc.record({
   provider: fc.constantFrom(
-    "google-analytics" as const,
-    "plausible" as const,
-    "umami" as const,
+    'google-analytics' as const,
+    'plausible' as const,
+    'umami' as const,
   ),
-  trackingId: fc.oneof(fc.constant(""), fc.string()),
+  trackingId: fc.oneof(fc.constant(''), fc.string()),
   enabled: fc.constant(false),
 });
 
@@ -36,7 +36,7 @@ const arbConsentState: fc.Arbitrary<CookieConsentState> = fc.record({
   essential: fc.constant(true as const),
   analytics: fc.boolean(),
   marketing: fc.boolean(),
-  region: fc.constantFrom("eu" as const, "ccpa" as const, "general" as const),
+  region: fc.constantFrom('eu' as const, 'ccpa' as const, 'general' as const),
   consentedAt: fc
     .integer({ min: 946684800000, max: 4102444800000 })
     .map((ts) => new Date(ts).toISOString()),
@@ -45,19 +45,19 @@ const arbConsentState: fc.Arbitrary<CookieConsentState> = fc.record({
 
 /** Disabled Axiom config: enabled is always false, token/dataset may be empty */
 const arbDisabledAxiomConfig: fc.Arbitrary<AxiomConfig> = fc.record({
-  token: fc.oneof(fc.constant(""), fc.string()),
-  dataset: fc.oneof(fc.constant(""), fc.string()),
+  token: fc.oneof(fc.constant(''), fc.string()),
+  dataset: fc.oneof(fc.constant(''), fc.string()),
   enabled: fc.constant(false),
 });
 
 /** Disabled Sentry config: enabled is always false */
 const arbDisabledSentryConfig: fc.Arbitrary<SentryConfig> = fc.record({
-  dsn: fc.oneof(fc.constant(""), fc.string()),
+  dsn: fc.oneof(fc.constant(''), fc.string()),
   enabled: fc.constant(false),
   environment: fc.oneof(
-    fc.constant("production"),
-    fc.constant("development"),
-    fc.constant("test"),
+    fc.constant('production'),
+    fc.constant('development'),
+    fc.constant('test'),
     fc.string(),
   ),
   tracesSampleRate: fc.double({ min: 0, max: 1, noNaN: true }),
@@ -83,7 +83,7 @@ const arbWebVitals: fc.Arbitrary<WebVitalsMetrics> = fc.record(
 /*  Tests                                                              */
 /* ------------------------------------------------------------------ */
 
-describe("Property 4: Graceful degradation for missing integration env vars", () => {
+describe('Property 4: Graceful degradation for missing integration env vars', () => {
   afterEach(() => {
     delete (globalThis as Record<string, unknown>).__analytics_initialized;
     delete (globalThis as Record<string, unknown>).__analytics_provider;
@@ -96,7 +96,7 @@ describe("Property 4: Graceful degradation for missing integration env vars", ()
    * For any disabled analytics config and any consent state,
    * initAnalytics does not throw.
    */
-  it("initAnalytics with enabled=false does not throw for any consent state", () => {
+  it('initAnalytics with enabled=false does not throw for any consent state', () => {
     fc.assert(
       fc.property(
         arbDisabledAnalyticsConfig,
@@ -120,7 +120,7 @@ describe("Property 4: Graceful degradation for missing integration env vars", ()
    * For any disabled Axiom config, createAxiomLogger returns a no-op logger
    * whose methods do not throw and produce no log entries.
    */
-  it("createAxiomLogger with enabled=false returns no-op logger that never throws or emits", () => {
+  it('createAxiomLogger with enabled=false returns no-op logger that never throws or emits', () => {
     fc.assert(
       fc.property(
         arbDisabledAxiomConfig,
@@ -152,28 +152,24 @@ describe("Property 4: Graceful degradation for missing integration env vars", ()
    * For any disabled Sentry config, initSentry does not throw,
    * and captureError after disabled init does not throw and produces no reports.
    */
-  it("initSentry with enabled=false does not throw, captureError is a no-op", () => {
+  it('initSentry with enabled=false does not throw, captureError is a no-op', () => {
     fc.assert(
-      fc.property(
-        arbDisabledSentryConfig,
-        fc.string(),
-        (config, errorMsg) => {
-          resetSentry();
+      fc.property(arbDisabledSentryConfig, fc.string(), (config, errorMsg) => {
+        resetSentry();
 
-          // initSentry should not throw
-          expect(() => initSentry(config)).not.toThrow();
+        // initSentry should not throw
+        expect(() => initSentry(config)).not.toThrow();
 
-          // captureError should not throw and should produce no reports
-          const reports: ErrorReport[] = [];
-          const sink = (report: ErrorReport) => reports.push(report);
+        // captureError should not throw and should produce no reports
+        const reports: ErrorReport[] = [];
+        const sink = (report: ErrorReport) => reports.push(report);
 
-          expect(() =>
-            captureError(new Error(errorMsg), { key: "value" }, sink),
-          ).not.toThrow();
+        expect(() =>
+          captureError(new Error(errorMsg), { key: 'value' }, sink),
+        ).not.toThrow();
 
-          expect(reports).toHaveLength(0);
-        },
-      ),
+        expect(reports).toHaveLength(0);
+      }),
       { numRuns: 100 },
     );
   });

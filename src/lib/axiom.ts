@@ -28,7 +28,7 @@ export interface WebVitalsMetrics {
 
 export interface LogEntry {
   timestamp: string;
-  type: "page-view" | "error" | "web-vitals";
+  type: 'page-view' | 'error' | 'web-vitals';
   data: Record<string, unknown>;
 }
 
@@ -66,7 +66,7 @@ export function createAxiomLogger(
     logPageView(path: string, metadata?: Record<string, unknown>): void {
       emit({
         timestamp: new Date().toISOString(),
-        type: "page-view",
+        type: 'page-view',
         data: { path, dataset: config.dataset, ...metadata },
       });
     },
@@ -74,7 +74,7 @@ export function createAxiomLogger(
     logError(error: Error, context?: Record<string, unknown>): void {
       emit({
         timestamp: new Date().toISOString(),
-        type: "error",
+        type: 'error',
         data: {
           message: error.message,
           stack: error.stack,
@@ -88,7 +88,7 @@ export function createAxiomLogger(
     logWebVitals(metrics: WebVitalsMetrics): void {
       emit({
         timestamp: new Date().toISOString(),
-        type: "web-vitals",
+        type: 'web-vitals',
         data: { dataset: config.dataset, ...metrics },
       });
     },

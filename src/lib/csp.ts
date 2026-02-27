@@ -8,34 +8,34 @@
 
 /** Per-directive source list configuration. */
 export interface CSPConfig {
-  "default-src"?: string[];
-  "script-src"?: string[];
-  "style-src"?: string[];
-  "img-src"?: string[];
-  "connect-src"?: string[];
-  "font-src"?: string[];
-  "object-src"?: string[];
-  "media-src"?: string[];
-  "frame-src"?: string[];
-  "frame-ancestors"?: string[];
-  "base-uri"?: string[];
-  "form-action"?: string[];
-  "upgrade-insecure-requests"?: boolean;
+  'default-src'?: string[];
+  'script-src'?: string[];
+  'style-src'?: string[];
+  'img-src'?: string[];
+  'connect-src'?: string[];
+  'font-src'?: string[];
+  'object-src'?: string[];
+  'media-src'?: string[];
+  'frame-src'?: string[];
+  'frame-ancestors'?: string[];
+  'base-uri'?: string[];
+  'form-action'?: string[];
+  'upgrade-insecure-requests'?: boolean;
 }
 
 /** Sensible defaults for a Next.js site. */
 const DEFAULT_CSP: CSPConfig = {
-  "default-src": ["'self'"],
-  "script-src": ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
-  "style-src": ["'self'", "'unsafe-inline'"],
-  "img-src": ["'self'", "data:", "https:"],
-  "connect-src": ["'self'"],
-  "font-src": ["'self'"],
-  "object-src": ["'none'"],
-  "frame-ancestors": ["'none'"],
-  "base-uri": ["'self'"],
-  "form-action": ["'self'"],
-  "upgrade-insecure-requests": true,
+  'default-src': ["'self'"],
+  'script-src': ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+  'style-src': ["'self'", "'unsafe-inline'"],
+  'img-src': ["'self'", 'data:', 'https:'],
+  'connect-src': ["'self'"],
+  'font-src': ["'self'"],
+  'object-src': ["'none'"],
+  'frame-ancestors': ["'none'"],
+  'base-uri': ["'self'"],
+  'form-action': ["'self'"],
+  'upgrade-insecure-requests': true,
 };
 
 /**
@@ -63,7 +63,7 @@ function mergeConfigs(base: CSPConfig, overrides: CSPConfig): CSPConfig {
     const value = overrides[key];
     if (value === undefined) continue;
 
-    if (key === "upgrade-insecure-requests") {
+    if (key === 'upgrade-insecure-requests') {
       merged[key] = Boolean(value);
       continue;
     }
@@ -71,12 +71,14 @@ function mergeConfigs(base: CSPConfig, overrides: CSPConfig): CSPConfig {
     const baseVal = base[key];
     const baseArr = Array.isArray(baseVal) ? baseVal : [];
     const overArr = Array.isArray(value) ? value : [];
-    (merged as Record<string, unknown>)[key] = deduplicatedConcat(baseArr, overArr);
+    (merged as Record<string, unknown>)[key] = deduplicatedConcat(
+      baseArr,
+      overArr,
+    );
   }
 
   return merged;
 }
-
 
 /**
  * Build a Content-Security-Policy header string.
@@ -92,14 +94,14 @@ export function buildCSP(config: CSPConfig = {}): string {
   for (const [directive, value] of Object.entries(effective)) {
     if (value === undefined) continue;
 
-    if (directive === "upgrade-insecure-requests") {
+    if (directive === 'upgrade-insecure-requests') {
       if (value === true) {
-        parts.push("upgrade-insecure-requests");
+        parts.push('upgrade-insecure-requests');
       }
     } else if (Array.isArray(value) && value.length > 0) {
-      parts.push(`${directive} ${value.join(" ")}`);
+      parts.push(`${directive} ${value.join(' ')}`);
     }
   }
 
-  return parts.join("; ");
+  return parts.join('; ');
 }

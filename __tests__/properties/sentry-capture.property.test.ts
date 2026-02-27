@@ -1,35 +1,30 @@
 // Feature: website-template-repo, Property 6: Sentry captures errors with metadata
 
-import { describe, it, expect, afterEach } from "vitest";
-import fc from "fast-check";
+import { describe, it, expect, afterEach } from 'vitest';
+import fc from 'fast-check';
 import {
   initSentry,
   captureError,
   resetSentry,
   type SentryConfig,
   type ErrorReport,
-} from "@/lib/sentry";
+} from '@/lib/sentry';
 
 /** Enabled Sentry config for testing */
 const enabledConfig: SentryConfig = {
-  dsn: "https://examplePublicKey@o0.ingest.sentry.io/0",
+  dsn: 'https://examplePublicKey@o0.ingest.sentry.io/0',
   enabled: true,
-  environment: "test",
+  environment: 'test',
   tracesSampleRate: 1.0,
 };
 
 /** Arbitrary context metadata: record of string keys to JSON-serializable values */
 const arbContext: fc.Arbitrary<Record<string, unknown>> = fc.dictionary(
   fc.string({ minLength: 1 }).filter((s) => s.trim().length > 0),
-  fc.oneof(
-    fc.string(),
-    fc.integer(),
-    fc.boolean(),
-    fc.constant(null),
-  ),
+  fc.oneof(fc.string(), fc.integer(), fc.boolean(), fc.constant(null)),
 );
 
-describe("Property 6: Sentry captures errors with metadata", () => {
+describe('Property 6: Sentry captures errors with metadata', () => {
   afterEach(() => {
     resetSentry();
   });
@@ -41,7 +36,7 @@ describe("Property 6: Sentry captures errors with metadata", () => {
    * a report containing the error message, stack trace (or undefined),
    * all context keys, and a valid ISO 8601 timestamp.
    */
-  it("captureError produces report with error message, stack, context keys, and valid timestamp", () => {
+  it('captureError produces report with error message, stack, context keys, and valid timestamp', () => {
     fc.assert(
       fc.property(fc.string(), arbContext, (errorMessage, context) => {
         initSentry(enabledConfig);
@@ -72,7 +67,7 @@ describe("Property 6: Sentry captures errors with metadata", () => {
         }
 
         // Report has a valid ISO 8601 timestamp
-        expect(typeof report.timestamp).toBe("string");
+        expect(typeof report.timestamp).toBe('string');
         expect(report.timestamp.length).toBeGreaterThan(0);
         const parsed = new Date(report.timestamp);
         expect(parsed.getTime()).not.toBeNaN();

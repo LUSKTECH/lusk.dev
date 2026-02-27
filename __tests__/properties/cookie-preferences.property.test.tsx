@@ -1,12 +1,12 @@
 // Feature: website-template-repo, Property 9: Cookie preferences UI reflects stored state
 // @vitest-environment jsdom
 
-import { describe, it, expect, beforeEach, afterEach } from "vitest";
-import React, { act } from "react";
-import { createRoot, type Root } from "react-dom/client";
-import fc from "fast-check";
-import CookiePreferences from "@/components/CookiePreferences";
-import type { CookieConsentState } from "@/lib/cookie-consent";
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import React, { act } from 'react';
+import { createRoot, type Root } from 'react-dom/client';
+import fc from 'fast-check';
+import CookiePreferences from '@/components/CookiePreferences';
+import type { CookieConsentState } from '@/lib/cookie-consent';
 
 /**
  * Arbitrary generator for valid CookieConsentState objects.
@@ -15,8 +15,10 @@ const cookieConsentStateArb: fc.Arbitrary<CookieConsentState> = fc.record({
   essential: fc.constant(true as const),
   analytics: fc.boolean(),
   marketing: fc.boolean(),
-  region: fc.constantFrom("eu" as const, "ccpa" as const, "general" as const),
-  consentedAt: fc.integer({ min: 946684800000, max: 4102444800000 }).map((ts) => new Date(ts).toISOString()),
+  region: fc.constantFrom('eu' as const, 'ccpa' as const, 'general' as const),
+  consentedAt: fc
+    .integer({ min: 946684800000, max: 4102444800000 })
+    .map((ts) => new Date(ts).toISOString()),
   version: fc.string({ minLength: 1 }),
 });
 
@@ -24,7 +26,7 @@ let container: HTMLDivElement;
 let root: Root;
 
 beforeEach(() => {
-  container = document.createElement("div");
+  container = document.createElement('div');
   document.body.appendChild(container);
   localStorage.clear();
 });
@@ -36,7 +38,7 @@ afterEach(() => {
   container.remove();
 });
 
-describe("Property 9: Cookie preferences UI reflects stored state", () => {
+describe('Property 9: Cookie preferences UI reflects stored state', () => {
   /**
    * Validates: Requirements 25.2
    *
@@ -46,11 +48,11 @@ describe("Property 9: Cookie preferences UI reflects stored state", () => {
    * - Analytics matches stored analytics boolean
    * - Marketing matches stored marketing boolean
    */
-  it("should render toggles matching stored CookieConsentState", () => {
+  it('should render toggles matching stored CookieConsentState', () => {
     fc.assert(
       fc.property(cookieConsentStateArb, (state) => {
         // Store the consent state in localStorage before rendering
-        localStorage.setItem("lusk-cookie-consent", JSON.stringify(state));
+        localStorage.setItem('lusk-cookie-consent', JSON.stringify(state));
 
         // Create a fresh root for each iteration
         root = createRoot(container);
@@ -79,7 +81,7 @@ describe("Property 9: Cookie preferences UI reflects stored state", () => {
 
         // Cleanup for next iteration
         act(() => root.unmount());
-        container.innerHTML = "";
+        container.innerHTML = '';
         localStorage.clear();
       }),
       { numRuns: 100 },

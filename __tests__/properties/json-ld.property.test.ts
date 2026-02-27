@@ -1,11 +1,8 @@
 // Feature: website-template-repo, Property 14: JSON-LD produces valid structured data
 
-import { describe, it, expect } from "vitest";
-import fc from "fast-check";
-import {
-  generateOrganizationJsonLd,
-  type SiteMetadata,
-} from "@/lib/json-ld";
+import { describe, it, expect } from 'vitest';
+import fc from 'fast-check';
+import { generateOrganizationJsonLd, type SiteMetadata } from '@/lib/json-ld';
 
 /**
  * Arbitrary generator for valid SiteMetadata objects.
@@ -26,7 +23,7 @@ const siteMetadataArb: fc.Arbitrary<SiteMetadata> = fc.record({
   }),
 });
 
-describe("Property 14: JSON-LD produces valid structured data", () => {
+describe('Property 14: JSON-LD produces valid structured data', () => {
   /**
    * Validates: Requirements 33.3
    *
@@ -34,16 +31,16 @@ describe("Property 14: JSON-LD produces valid structured data", () => {
    * should produce a valid object with @context equal to "https://schema.org",
    * @type equal to "Organization", and fields matching the input values.
    */
-  it("should produce valid schema.org Organization JSON-LD for any SiteMetadata", () => {
+  it('should produce valid schema.org Organization JSON-LD for any SiteMetadata', () => {
     fc.assert(
       fc.property(siteMetadataArb, (metadata) => {
         const result = generateOrganizationJsonLd(metadata);
 
         // Must have correct schema.org context
-        expect(result["@context"]).toBe("https://schema.org");
+        expect(result['@context']).toBe('https://schema.org');
 
         // Must have Organization type
-        expect(result["@type"]).toBe("Organization");
+        expect(result['@type']).toBe('Organization');
 
         // Fields must match input organization data
         expect(result.name).toBe(metadata.organization.name);
@@ -53,8 +50,8 @@ describe("Property 14: JSON-LD produces valid structured data", () => {
         // Output must be JSON-serializable (valid structured data)
         const serialized = JSON.stringify(result);
         const parsed = JSON.parse(serialized);
-        expect(parsed["@context"]).toBe("https://schema.org");
-        expect(parsed["@type"]).toBe("Organization");
+        expect(parsed['@context']).toBe('https://schema.org');
+        expect(parsed['@type']).toBe('Organization');
         expect(parsed.name).toBe(metadata.organization.name);
         expect(parsed.url).toBe(metadata.organization.url);
         expect(parsed.logo).toBe(metadata.organization.logo);

@@ -16,14 +16,14 @@ The template is framework-agnostic at the page level (placeholder pages use plai
 
 ### Key Design Decisions
 
-| Decision | Rationale |
-|---|---|
-| Next.js as reference framework | Most popular React meta-framework; SSR/SSG support; native Vercel integration; easy Netlify adapter |
-| TypeScript throughout | Type safety for env validation, component props, and config files |
-| `LUSKTECH/.github` for reusable workflows | Centralizes CI patterns; template repos only carry thin caller workflows |
-| Local storage for cookie consent | No server-side dependency; GDPR-compliant when combined with consent-before-tracking |
-| Zod for env validation | Runtime + build-time schema validation with clear error messages |
-| fast-check for property-based testing | Mature JS/TS PBT library with good ecosystem support |
+| Decision                                  | Rationale                                                                                           |
+| ----------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| Next.js as reference framework            | Most popular React meta-framework; SSR/SSG support; native Vercel integration; easy Netlify adapter |
+| TypeScript throughout                     | Type safety for env validation, component props, and config files                                   |
+| `LUSKTECH/.github` for reusable workflows | Centralizes CI patterns; template repos only carry thin caller workflows                            |
+| Local storage for cookie consent          | No server-side dependency; GDPR-compliant when combined with consent-before-tracking                |
+| Zod for env validation                    | Runtime + build-time schema validation with clear error messages                                    |
+| fast-check for property-based testing     | Mature JS/TS PBT library with good ecosystem support                                                |
 
 ## Architecture
 
@@ -113,15 +113,18 @@ When the secret is absent, the job is skipped with a neutral status (not failure
 ### 1. Page Components
 
 #### Privacy Policy Page (`/privacy`)
+
 - Static page with placeholder sections: Data Collection, Data Usage, Third-Party Sharing, User Rights, Contact Information
 - Cross-links to Terms of Service page
 - Props: none (static content with site-wide layout)
 
 #### Terms of Service Page (`/terms`)
+
 - Static page with placeholder sections: Acceptable Use, Intellectual Property, Limitation of Liability, Governing Law, Contact Information
 - Cross-links to Privacy Policy page
 
 #### Custom Error Pages
+
 - `404.tsx` — "Page Not Found" with navigation back to home
 - `500.tsx` — "Server Error" with user-friendly message
 - Both use the site layout and branding
@@ -146,6 +149,7 @@ graph TD
 ```
 
 #### CookieBanner Component
+
 ```typescript
 interface CookieConsentState {
   essential: true; // always true, non-toggleable
@@ -163,6 +167,7 @@ interface CookieBannerProps {
 ```
 
 #### CookiePreferences Component
+
 - Accessible from footer link and from the banner itself
 - Displays toggle for each cookie category
 - Reads/writes `CookieConsentState` from localStorage
@@ -171,6 +176,7 @@ interface CookieBannerProps {
 ### 3. Integration Layer
 
 #### Analytics Integration
+
 ```typescript
 interface AnalyticsConfig {
   provider: 'google-analytics' | 'plausible' | 'umami';
@@ -179,10 +185,14 @@ interface AnalyticsConfig {
 }
 
 // Initialization is gated on cookie consent
-function initAnalytics(config: AnalyticsConfig, consent: CookieConsentState): void;
+function initAnalytics(
+  config: AnalyticsConfig,
+  consent: CookieConsentState,
+): void;
 ```
 
 #### Axiom Integration
+
 ```typescript
 interface AxiomConfig {
   token: string;
@@ -199,6 +209,7 @@ interface AxiomLogger {
 ```
 
 #### Sentry Integration
+
 ```typescript
 interface SentryConfig {
   dsn: string;
@@ -259,28 +270,28 @@ function validateEnv(): Env;
 
 #### Template Repo Workflows (`.github/workflows/`)
 
-| Workflow File | Trigger | Secret Guard | Description |
-|---|---|---|---|
-| `ci.yml` | push, PR | None (always runs) | Lint (ESLint), format check (Prettier), test + coverage |
-| `security.yml` | PR, weekly schedule | `TRIVY_ENABLED`, `SNYK_TOKEN`, `SAFETY_API_KEY` | Trivy, Snyk, Safety CLI scans |
-| `lighthouse.yml` | PR | `LHCI_GITHUB_APP_TOKEN` | Lighthouse CI performance/a11y/SEO checks |
-| `deploy-preview.yml` | PR | `VERCEL_TOKEN` or `NETLIFY_AUTH_TOKEN` | Preview deployment |
-| `deploy-production.yml` | push to main | `VERCEL_TOKEN` or `NETLIFY_AUTH_TOKEN` | Production deployment |
-| `stale.yml` | daily schedule | None | Calls reusable stale bot workflow |
-| `automerge.yml` | PR (Dependabot) | None | Auto-merges patch/minor Dependabot PRs |
-| `discord-notify.yml` | workflow_run | `DISCORD_WEBHOOK_URL` | Calls reusable Discord notification workflow |
-| `sonarqube.yml` | PR, push to main | `SONAR_TOKEN` | SonarQube analysis |
-| `qlty.yml` | PR | `QLTY_TOKEN` | qlty.sh code quality |
-| `codecov.yml` | (part of ci.yml) | `CODECOV_TOKEN` | Coverage upload step |
-| `a11y.yml` | PR | None (always runs) | axe-core accessibility testing |
+| Workflow File           | Trigger             | Secret Guard                                    | Description                                             |
+| ----------------------- | ------------------- | ----------------------------------------------- | ------------------------------------------------------- |
+| `ci.yml`                | push, PR            | None (always runs)                              | Lint (ESLint), format check (Prettier), test + coverage |
+| `security.yml`          | PR, weekly schedule | `TRIVY_ENABLED`, `SNYK_TOKEN`, `SAFETY_API_KEY` | Trivy, Snyk, Safety CLI scans                           |
+| `lighthouse.yml`        | PR                  | `LHCI_GITHUB_APP_TOKEN`                         | Lighthouse CI performance/a11y/SEO checks               |
+| `deploy-preview.yml`    | PR                  | `VERCEL_TOKEN` or `NETLIFY_AUTH_TOKEN`          | Preview deployment                                      |
+| `deploy-production.yml` | push to main        | `VERCEL_TOKEN` or `NETLIFY_AUTH_TOKEN`          | Production deployment                                   |
+| `stale.yml`             | daily schedule      | None                                            | Calls reusable stale bot workflow                       |
+| `automerge.yml`         | PR (Dependabot)     | None                                            | Auto-merges patch/minor Dependabot PRs                  |
+| `discord-notify.yml`    | workflow_run        | `DISCORD_WEBHOOK_URL`                           | Calls reusable Discord notification workflow            |
+| `sonarqube.yml`         | PR, push to main    | `SONAR_TOKEN`                                   | SonarQube analysis                                      |
+| `qlty.yml`              | PR                  | `QLTY_TOKEN`                                    | qlty.sh code quality                                    |
+| `codecov.yml`           | (part of ci.yml)    | `CODECOV_TOKEN`                                 | Coverage upload step                                    |
+| `a11y.yml`              | PR                  | None (always runs)                              | axe-core accessibility testing                          |
 
 #### Reusable Workflows (`LUSKTECH/.github/.github/workflows/`)
 
-| Workflow File | Inputs | Description |
-|---|---|---|
-| `reusable-discord-notify.yml` | `webhook_url`, `status`, `repo_name`, `run_url` | Sends formatted Discord embed |
-| `reusable-stale.yml` | `days_before_stale`, `days_before_close`, `exempt_labels` | Labels and closes stale issues/PRs |
-| `reusable-security-scan.yml` | `scan_type` (trivy/snyk/safety), token secrets | Runs the specified security scanner |
+| Workflow File                 | Inputs                                                    | Description                         |
+| ----------------------------- | --------------------------------------------------------- | ----------------------------------- |
+| `reusable-discord-notify.yml` | `webhook_url`, `status`, `repo_name`, `run_url`           | Sends formatted Discord embed       |
+| `reusable-stale.yml`          | `days_before_stale`, `days_before_close`, `exempt_labels` | Labels and closes stale issues/PRs  |
+| `reusable-security-scan.yml`  | `scan_type` (trivy/snyk/safety), token secrets            | Runs the specified security scanner |
 
 ### 7. Pre-Commit Hooks
 
@@ -291,6 +302,7 @@ function validateEnv(): Env;
 ```
 
 **lint-staged config** (in `package.json` or `.lintstagedrc`):
+
 ```json
 {
   "*.{ts,tsx,js,jsx}": ["eslint --fix", "prettier --write"],
@@ -300,29 +312,29 @@ function validateEnv(): Env;
 
 ### 8. Static Files and Configuration
 
-| File | Purpose |
-|---|---|
-| `robots.txt` | Allow all crawlers, reference sitemap URL |
-| `sitemap.xml` (or auto-generated) | Page listing for search engines |
-| `manifest.json` / `site.webmanifest` | PWA manifest with placeholder name/colors/icons |
-| `favicon.ico`, `favicon-16x16.png`, `favicon-32x32.png`, `apple-touch-icon.png` (180x180), `android-chrome-192x192.png`, `android-chrome-512x512.png` | Favicon set |
-| `.prettierrc` | Prettier formatting rules |
-| `.prettierignore` | Exclude build output, node_modules, etc. |
-| `lighthouserc.js` | Lighthouse CI thresholds |
-| `codecov.yml` | Coverage thresholds |
-| `.qlty.toml` | qlty.sh quality gates |
-| `sonar-project.properties` | SonarQube project config |
-| `.github/dependabot.yml` | Dependabot ecosystems + schedule |
-| `.github/CODEOWNERS` | Ownership rules |
-| `.github/FUNDING.yml` | Funding links |
-| `.github/PULL_REQUEST_TEMPLATE.md` | PR checklist |
-| `.github/ISSUE_TEMPLATE/bug_report.yml` | Bug report template |
-| `.github/ISSUE_TEMPLATE/feature_request.yml` | Feature request template |
-| `.github/ISSUE_TEMPLATE/question.yml` | General question template |
-| `SECURITY.md` | Vulnerability disclosure policy |
-| `CODE_OF_CONDUCT.md` | Contributor Covenant |
-| `CONTRIBUTORS.md` | Contributor list |
-| `LICENSE` | Placeholder license |
+| File                                                                                                                                                  | Purpose                                         |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------- |
+| `robots.txt`                                                                                                                                          | Allow all crawlers, reference sitemap URL       |
+| `sitemap.xml` (or auto-generated)                                                                                                                     | Page listing for search engines                 |
+| `manifest.json` / `site.webmanifest`                                                                                                                  | PWA manifest with placeholder name/colors/icons |
+| `favicon.ico`, `favicon-16x16.png`, `favicon-32x32.png`, `apple-touch-icon.png` (180x180), `android-chrome-192x192.png`, `android-chrome-512x512.png` | Favicon set                                     |
+| `.prettierrc`                                                                                                                                         | Prettier formatting rules                       |
+| `.prettierignore`                                                                                                                                     | Exclude build output, node_modules, etc.        |
+| `lighthouserc.js`                                                                                                                                     | Lighthouse CI thresholds                        |
+| `codecov.yml`                                                                                                                                         | Coverage thresholds                             |
+| `.qlty.toml`                                                                                                                                          | qlty.sh quality gates                           |
+| `sonar-project.properties`                                                                                                                            | SonarQube project config                        |
+| `.github/dependabot.yml`                                                                                                                              | Dependabot ecosystems + schedule                |
+| `.github/CODEOWNERS`                                                                                                                                  | Ownership rules                                 |
+| `.github/FUNDING.yml`                                                                                                                                 | Funding links                                   |
+| `.github/PULL_REQUEST_TEMPLATE.md`                                                                                                                    | PR checklist                                    |
+| `.github/ISSUE_TEMPLATE/bug_report.yml`                                                                                                               | Bug report template                             |
+| `.github/ISSUE_TEMPLATE/feature_request.yml`                                                                                                          | Feature request template                        |
+| `.github/ISSUE_TEMPLATE/question.yml`                                                                                                                 | General question template                       |
+| `SECURITY.md`                                                                                                                                         | Vulnerability disclosure policy                 |
+| `CODE_OF_CONDUCT.md`                                                                                                                                  | Contributor Covenant                            |
+| `CONTRIBUTORS.md`                                                                                                                                     | Contributor list                                |
+| `LICENSE`                                                                                                                                             | Placeholder license                             |
 
 ## Data Models
 
@@ -337,7 +349,7 @@ interface CookieConsentState {
   marketing: boolean;
   region: 'eu' | 'ccpa' | 'general';
   consentedAt: string; // ISO 8601
-  version: string;     // e.g., "1.0" — for future schema migrations
+  version: string; // e.g., "1.0" — for future schema migrations
 }
 ```
 
@@ -345,18 +357,18 @@ interface CookieConsentState {
 
 Defined via Zod schema (see Components section). Categories:
 
-| Category | Variables | Required? |
-|---|---|---|
-| Core | `NEXT_PUBLIC_SITE_URL` | Yes |
-| Analytics | `NEXT_PUBLIC_GA_ID` | No |
-| Axiom | `AXIOM_TOKEN`, `AXIOM_DATASET` | No |
-| Sentry | `SENTRY_DSN`, `SENTRY_AUTH_TOKEN` | No |
-| Lighthouse | `LHCI_GITHUB_APP_TOKEN` | No |
-| Codecov | `CODECOV_TOKEN` | No |
-| Security | `TRIVY_ENABLED`, `SNYK_TOKEN`, `SAFETY_API_KEY` | No |
-| Quality | `SONAR_TOKEN`, `QLTY_TOKEN` | No |
-| Deploy | `VERCEL_TOKEN`, `NETLIFY_AUTH_TOKEN` | No |
-| Notifications | `DISCORD_WEBHOOK_URL` | No |
+| Category      | Variables                                       | Required? |
+| ------------- | ----------------------------------------------- | --------- |
+| Core          | `NEXT_PUBLIC_SITE_URL`                          | Yes       |
+| Analytics     | `NEXT_PUBLIC_GA_ID`                             | No        |
+| Axiom         | `AXIOM_TOKEN`, `AXIOM_DATASET`                  | No        |
+| Sentry        | `SENTRY_DSN`, `SENTRY_AUTH_TOKEN`               | No        |
+| Lighthouse    | `LHCI_GITHUB_APP_TOKEN`                         | No        |
+| Codecov       | `CODECOV_TOKEN`                                 | No        |
+| Security      | `TRIVY_ENABLED`, `SNYK_TOKEN`, `SAFETY_API_KEY` | No        |
+| Quality       | `SONAR_TOKEN`, `QLTY_TOKEN`                     | No        |
+| Deploy        | `VERCEL_TOKEN`, `NETLIFY_AUTH_TOKEN`            | No        |
+| Notifications | `DISCORD_WEBHOOK_URL`                           | No        |
 
 ### SEO Metadata Model
 
@@ -397,18 +409,18 @@ interface SecurityHeaders {
 # .github/dependabot.yml
 version: 2
 updates:
-  - package-ecosystem: "npm"
-    directory: "/"
+  - package-ecosystem: 'npm'
+    directory: '/'
     schedule:
-      interval: "weekly"
-  - package-ecosystem: "pip"
-    directory: "/"
+      interval: 'weekly'
+  - package-ecosystem: 'pip'
+    directory: '/'
     schedule:
-      interval: "weekly"
-  - package-ecosystem: "github-actions"
-    directory: "/"
+      interval: 'weekly'
+  - package-ecosystem: 'github-actions'
+    directory: '/'
     schedule:
-      interval: "weekly"
+      interval: 'weekly'
 ```
 
 ### Stale Bot Configuration
@@ -417,98 +429,98 @@ Passed as inputs to the reusable workflow:
 
 ```typescript
 interface StaleBotConfig {
-  daysBeforeStale: number;    // default: 30
-  daysBeforeClose: number;    // default: 7
-  exemptLabels: string[];     // default: ['pinned', 'security']
-  staleLabel: string;         // default: 'stale'
+  daysBeforeStale: number; // default: 30
+  daysBeforeClose: number; // default: 7
+  exemptLabels: string[]; // default: ['pinned', 'security']
+  staleLabel: string; // default: 'stale'
 }
 ```
 
 ## Correctness Properties
 
-*A property is a characteristic or behavior that should hold true across all valid executions of a system — essentially, a formal statement about what the system should do. Properties serve as the bridge between human-readable specifications and machine-verifiable correctness guarantees.*
+_A property is a characteristic or behavior that should hold true across all valid executions of a system — essentially, a formal statement about what the system should do. Properties serve as the bridge between human-readable specifications and machine-verifiable correctness guarantees._
 
 ### Property 1: Region-based banner selection
 
-*For any* region code, the cookie banner type returned by the region classifier should match the regulatory classification of that region: EU member state codes → `'eu'` (GDPR), California → `'ccpa'`, all other regions → `'general'`. When geolocation fails (null/undefined input), the classifier should default to `'eu'` (most restrictive).
+_For any_ region code, the cookie banner type returned by the region classifier should match the regulatory classification of that region: EU member state codes → `'eu'` (GDPR), California → `'ccpa'`, all other regions → `'general'`. When geolocation fails (null/undefined input), the classifier should default to `'eu'` (most restrictive).
 
 **Validates: Requirements 2.1, 2.3, 2.6**
 
 ### Property 2: Consent state round-trip persistence
 
-*For any* valid `CookieConsentState` object, writing it to localStorage and reading it back should produce an identical object. Additionally, after persisting updated preferences, the consent state retrieved from storage should reflect the update.
+_For any_ valid `CookieConsentState` object, writing it to localStorage and reading it back should produce an identical object. Additionally, after persisting updated preferences, the consent state retrieved from storage should reflect the update.
 
 **Validates: Requirements 2.5, 25.3**
 
 ### Property 3: Consent-gated script loading
 
-*For any* `CookieConsentState`, analytics/tracking scripts should be loaded if and only if the `analytics` field is `true`. When `analytics` is `false`, no tracking script initialization should occur.
+_For any_ `CookieConsentState`, analytics/tracking scripts should be loaded if and only if the `analytics` field is `true`. When `analytics` is `false`, no tracking script initialization should occur.
 
 **Validates: Requirements 3.3**
 
 ### Property 4: Graceful degradation for missing integration env vars
 
-*For any* optional integration (Analytics, Axiom, Sentry), when its required environment variable is absent (empty string or undefined), calling the integration's initialization function should not throw an error and should return a disabled/no-op instance.
+_For any_ optional integration (Analytics, Axiom, Sentry), when its required environment variable is absent (empty string or undefined), calling the integration's initialization function should not throw an error and should return a disabled/no-op instance.
 
 **Validates: Requirements 3.2, 4.2, 5.2**
 
 ### Property 5: Axiom logger produces structured output
 
-*For any* page path string, error object, or web vitals metrics object, calling the corresponding Axiom logger method should produce a structured log entry containing the input data and a timestamp.
+_For any_ page path string, error object, or web vitals metrics object, calling the corresponding Axiom logger method should produce a structured log entry containing the input data and a timestamp.
 
 **Validates: Requirements 4.3**
 
 ### Property 6: Sentry captures errors with metadata
 
-*For any* `Error` object with a stack trace and any context metadata record, the Sentry capture function should produce a report containing the error message, stack trace, and all provided metadata keys.
+_For any_ `Error` object with a stack trace and any context metadata record, the Sentry capture function should produce a report containing the error message, stack trace, and all provided metadata keys.
 
 **Validates: Requirements 5.3**
 
 ### Property 7: Secret-guarded workflows have skip conditionals
 
-*For any* workflow YAML file in `.github/workflows/` that references a secret from the set of optional secrets, the workflow should contain an `if` conditional that checks for the presence of that secret before running the guarded job.
+_For any_ workflow YAML file in `.github/workflows/` that references a secret from the set of optional secrets, the workflow should contain an `if` conditional that checks for the presence of that secret before running the guarded job.
 
 **Validates: Requirements 17.1**
 
 ### Property 8: Secret-guarded workflows log skip notices
 
-*For any* workflow YAML file in `.github/workflows/` that has a secret guard, the workflow should contain a companion job or step that logs an informational message naming the missing secret and the skipped workflow when the guard condition is false.
+_For any_ workflow YAML file in `.github/workflows/` that has a secret guard, the workflow should contain a companion job or step that logs an informational message naming the missing secret and the skipped workflow when the guard condition is false.
 
 **Validates: Requirements 17.2**
 
 ### Property 9: Cookie preferences UI reflects stored state
 
-*For any* valid `CookieConsentState` stored in localStorage, the cookie preferences component should render toggle states that match the stored `essential`, `analytics`, and `marketing` boolean values.
+_For any_ valid `CookieConsentState` stored in localStorage, the cookie preferences component should render toggle states that match the stored `essential`, `analytics`, and `marketing` boolean values.
 
 **Validates: Requirements 25.2**
 
 ### Property 10: Environment validation distinguishes required vs optional
 
-*For any* environment variable defined in the Zod schema, if the variable is marked as required and its value is missing, `validateEnv()` should throw an error. If the variable is marked as optional and its value is missing, `validateEnv()` should log a warning but not throw.
+_For any_ environment variable defined in the Zod schema, if the variable is marked as required and its value is missing, `validateEnv()` should throw an error. If the variable is marked as optional and its value is missing, `validateEnv()` should log a warning but not throw.
 
 **Validates: Requirements 28.2, 28.3**
 
 ### Property 11: CSP builder produces valid header from config
 
-*For any* set of allowed domain strings, the CSP builder function should produce a Content-Security-Policy header string that includes each provided domain in the appropriate directive and conforms to CSP syntax (semicolon-separated directives, space-separated sources).
+_For any_ set of allowed domain strings, the CSP builder function should produce a Content-Security-Policy header string that includes each provided domain in the appropriate directive and conforms to CSP syntax (semicolon-separated directives, space-separated sources).
 
 **Validates: Requirements 29.3**
 
 ### Property 12: Commitlint validates conventional commits
 
-*For any* string that matches the Conventional Commits pattern (`type(scope): description`), commitlint should pass validation. *For any* string that does not match the pattern, commitlint should reject it.
+_For any_ string that matches the Conventional Commits pattern (`type(scope): description`), commitlint should pass validation. _For any_ string that does not match the pattern, commitlint should reject it.
 
 **Validates: Requirements 30.3**
 
 ### Property 13: SEO component renders correct meta tags
 
-*For any* valid `SEOProps` object (with title, description, url, and optional image), the SEO component's rendered output should contain an `og:title` meta tag with the title value, an `og:description` meta tag with the description value, a `twitter:card` meta tag, and a canonical `<link>` tag with the URL value.
+_For any_ valid `SEOProps` object (with title, description, url, and optional image), the SEO component's rendered output should contain an `og:title` meta tag with the title value, an `og:description` meta tag with the description value, a `twitter:card` meta tag, and a canonical `<link>` tag with the URL value.
 
 **Validates: Requirements 33.1, 33.2**
 
 ### Property 14: JSON-LD produces valid structured data
 
-*For any* organization data object (name, url, logo), the JSON-LD generator should produce a valid JSON string that parses to an object with `@context` equal to `"https://schema.org"`, `@type` equal to `"Organization"`, and fields matching the input values.
+_For any_ organization data object (name, url, logo), the JSON-LD generator should produce a valid JSON string that parses to an object with `@context` equal to `"https://schema.org"`, `@type` equal to `"Organization"`, and fields matching the input values.
 
 **Validates: Requirements 33.3**
 
@@ -516,41 +528,41 @@ interface StaleBotConfig {
 
 ### Integration Failures
 
-| Scenario | Behavior |
-|---|---|
-| Geolocation API unreachable | Default to GDPR (most restrictive) banner |
-| Analytics env var missing | No-op analytics instance; no runtime errors |
-| Axiom token missing | No-op logger; logs silently discarded |
-| Sentry DSN missing | Sentry SDK not initialized; errors go uncaptured |
-| Sentry source map upload fails | Build continues; warning logged |
+| Scenario                                    | Behavior                                                                       |
+| ------------------------------------------- | ------------------------------------------------------------------------------ |
+| Geolocation API unreachable                 | Default to GDPR (most restrictive) banner                                      |
+| Analytics env var missing                   | No-op analytics instance; no runtime errors                                    |
+| Axiom token missing                         | No-op logger; logs silently discarded                                          |
+| Sentry DSN missing                          | Sentry SDK not initialized; errors go uncaptured                               |
+| Sentry source map upload fails              | Build continues; warning logged                                                |
 | localStorage unavailable (private browsing) | Cookie consent falls back to session-only state; banner re-shows on next visit |
 
 ### Build-Time Validation
 
-| Scenario | Behavior |
-|---|---|
-| Required env var missing | Build fails with clear error message naming the variable |
-| Optional env var missing | Warning logged to console; build continues |
+| Scenario                                     | Behavior                                                         |
+| -------------------------------------------- | ---------------------------------------------------------------- |
+| Required env var missing                     | Build fails with clear error message naming the variable         |
+| Optional env var missing                     | Warning logged to console; build continues                       |
 | Env var has wrong format (e.g., invalid URL) | Build fails with Zod validation error describing expected format |
 
 ### CI/CD Failures
 
-| Scenario | Behavior |
-|---|---|
-| Secret missing for optional workflow | Job skipped with neutral status; skip-notice job logs the reason |
-| Lighthouse scores below threshold | PR check fails; scores reported in check output |
-| Security scan finds critical vulnerability | PR check fails; findings reported |
-| Dependabot PR fails checks | Automerge does not trigger; PR stays open for manual review |
-| Discord webhook URL invalid | Notification step fails silently; does not block the pipeline |
+| Scenario                                   | Behavior                                                         |
+| ------------------------------------------ | ---------------------------------------------------------------- |
+| Secret missing for optional workflow       | Job skipped with neutral status; skip-notice job logs the reason |
+| Lighthouse scores below threshold          | PR check fails; scores reported in check output                  |
+| Security scan finds critical vulnerability | PR check fails; findings reported                                |
+| Dependabot PR fails checks                 | Automerge does not trigger; PR stays open for manual review      |
+| Discord webhook URL invalid                | Notification step fails silently; does not block the pipeline    |
 
 ### Runtime Errors
 
-| Scenario | Behavior |
-|---|---|
-| Unhandled exception (Sentry enabled) | Error captured with stack trace and context; user sees 500 page |
-| Unhandled exception (Sentry disabled) | Error logged to console; user sees 500 page |
-| 404 route | Custom 404 page with navigation back to home |
-| Cookie consent state corrupted in localStorage | Reset to default (no consent); re-show banner |
+| Scenario                                       | Behavior                                                        |
+| ---------------------------------------------- | --------------------------------------------------------------- |
+| Unhandled exception (Sentry enabled)           | Error captured with stack trace and context; user sees 500 page |
+| Unhandled exception (Sentry disabled)          | Error logged to console; user sees 500 page                     |
+| 404 route                                      | Custom 404 page with navigation back to home                    |
+| Cookie consent state corrupted in localStorage | Reset to default (no consent); re-show banner                   |
 
 ## Testing Strategy
 
@@ -578,22 +590,22 @@ Unit tests focus on:
 
 Each correctness property from the design is implemented as a single property-based test using `fast-check`. Tests are configured with a minimum of 100 iterations.
 
-| Property | Test Description | Tag |
-|---|---|---|
-| 1 | Region classifier maps codes to correct banner type | Feature: website-template-repo, Property 1: Region-based banner selection |
-| 2 | Consent state survives localStorage round-trip | Feature: website-template-repo, Property 2: Consent state round-trip persistence |
-| 3 | Tracking scripts load iff analytics consent is true | Feature: website-template-repo, Property 3: Consent-gated script loading |
-| 4 | Missing env vars produce no-op integrations without errors | Feature: website-template-repo, Property 4: Graceful degradation for missing integration env vars |
-| 5 | Axiom logger methods produce structured entries | Feature: website-template-repo, Property 5: Axiom logger produces structured output |
-| 6 | Sentry capture includes error + metadata | Feature: website-template-repo, Property 6: Sentry captures errors with metadata |
-| 7 | Workflow YAML files contain secret-guard conditionals | Feature: website-template-repo, Property 7: Secret-guarded workflows have skip conditionals |
-| 8 | Workflow YAML files contain skip-notice jobs | Feature: website-template-repo, Property 8: Secret-guarded workflows log skip notices |
-| 9 | Preferences UI toggles match stored consent state | Feature: website-template-repo, Property 9: Cookie preferences UI reflects stored state |
-| 10 | Env validator errors on required, warns on optional | Feature: website-template-repo, Property 10: Environment validation distinguishes required vs optional |
-| 11 | CSP builder output includes all configured domains | Feature: website-template-repo, Property 11: CSP builder produces valid header from config |
-| 12 | Commitlint accepts valid and rejects invalid messages | Feature: website-template-repo, Property 12: Commitlint validates conventional commits |
-| 13 | SEO component output contains all meta tags | Feature: website-template-repo, Property 13: SEO component renders correct meta tags |
-| 14 | JSON-LD output is valid schema.org Organization | Feature: website-template-repo, Property 14: JSON-LD produces valid structured data |
+| Property | Test Description                                           | Tag                                                                                                    |
+| -------- | ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| 1        | Region classifier maps codes to correct banner type        | Feature: website-template-repo, Property 1: Region-based banner selection                              |
+| 2        | Consent state survives localStorage round-trip             | Feature: website-template-repo, Property 2: Consent state round-trip persistence                       |
+| 3        | Tracking scripts load iff analytics consent is true        | Feature: website-template-repo, Property 3: Consent-gated script loading                               |
+| 4        | Missing env vars produce no-op integrations without errors | Feature: website-template-repo, Property 4: Graceful degradation for missing integration env vars      |
+| 5        | Axiom logger methods produce structured entries            | Feature: website-template-repo, Property 5: Axiom logger produces structured output                    |
+| 6        | Sentry capture includes error + metadata                   | Feature: website-template-repo, Property 6: Sentry captures errors with metadata                       |
+| 7        | Workflow YAML files contain secret-guard conditionals      | Feature: website-template-repo, Property 7: Secret-guarded workflows have skip conditionals            |
+| 8        | Workflow YAML files contain skip-notice jobs               | Feature: website-template-repo, Property 8: Secret-guarded workflows log skip notices                  |
+| 9        | Preferences UI toggles match stored consent state          | Feature: website-template-repo, Property 9: Cookie preferences UI reflects stored state                |
+| 10       | Env validator errors on required, warns on optional        | Feature: website-template-repo, Property 10: Environment validation distinguishes required vs optional |
+| 11       | CSP builder output includes all configured domains         | Feature: website-template-repo, Property 11: CSP builder produces valid header from config             |
+| 12       | Commitlint accepts valid and rejects invalid messages      | Feature: website-template-repo, Property 12: Commitlint validates conventional commits                 |
+| 13       | SEO component output contains all meta tags                | Feature: website-template-repo, Property 13: SEO component renders correct meta tags                   |
+| 14       | JSON-LD output is valid schema.org Organization            | Feature: website-template-repo, Property 14: JSON-LD produces valid structured data                    |
 
 ### Test Configuration
 

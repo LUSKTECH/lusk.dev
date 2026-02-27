@@ -1,13 +1,13 @@
-import type { Metadata } from "next";
-import Link from "next/link";
-import SEOHead from "@/components/SEOHead";
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import SEOHead from '@/components/SEOHead';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://example.com";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://example.com';
 
 export const metadata: Metadata = {
-  title: "Terms of Service | Lusk Technologies",
+  title: 'Terms of Service | Lusk Technologies',
   description:
-    "Review the terms and conditions for using the Lusk Technologies website.",
+    'Review the terms and conditions for using the Lusk Technologies website.',
   alternates: {
     canonical: `${siteUrl}/terms`,
   },
@@ -45,8 +45,8 @@ export default function TermsOfServicePage() {
               national, or international law or regulation.
             </li>
             <li>
-              Attempt to gain unauthorized access to any part of the website, its
-              servers, or any connected systems.
+              Attempt to gain unauthorized access to any part of the website,
+              its servers, or any connected systems.
             </li>
             <li>
               Interfere with or disrupt the integrity or performance of the
@@ -86,18 +86,18 @@ export default function TermsOfServicePage() {
           </p>
           <p>
             The website and its content are provided on an &quot;as is&quot; and
-            &quot;as available&quot; basis without warranties of any kind, either
-            express or implied.
+            &quot;as available&quot; basis without warranties of any kind,
+            either express or implied.
           </p>
         </section>
 
         <section>
           <h2>Governing Law</h2>
           <p>
-            These Terms shall be governed by and construed in accordance with the
-            laws of [State/Jurisdiction], without regard to its conflict of law
-            provisions. Any disputes arising under these Terms shall be subject
-            to the exclusive jurisdiction of the courts located in
+            These Terms shall be governed by and construed in accordance with
+            the laws of [State/Jurisdiction], without regard to its conflict of
+            law provisions. Any disputes arising under these Terms shall be
+            subject to the exclusive jurisdiction of the courts located in
             [State/Jurisdiction].
           </p>
         </section>
@@ -118,8 +118,7 @@ export default function TermsOfServicePage() {
 
         <hr />
         <p>
-          Please also review our{" "}
-          <Link href="/privacy">Privacy Policy</Link>.
+          Please also review our <Link href="/privacy">Privacy Policy</Link>.
         </p>
       </main>
     </>

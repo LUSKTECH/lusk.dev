@@ -46,40 +46,40 @@ Open [http://localhost:3000](http://localhost:3000) to see the site.
 
 ### Available Scripts
 
-| Script | Description |
-| --- | --- |
-| `npm run dev` | Start the Next.js development server |
-| `npm run build` | Production build |
-| `npm start` | Serve the production build |
-| `npm run lint` | Run ESLint |
-| `npm run format` | Check formatting with Prettier |
-| `npm run format:fix` | Auto-fix formatting |
-| `npm run test` | Run tests in watch mode |
-| `npm run test:run` | Run tests once (CI mode) |
-| `npm run test:coverage` | Run tests with Istanbul coverage |
+| Script                  | Description                          |
+| ----------------------- | ------------------------------------ |
+| `npm run dev`           | Start the Next.js development server |
+| `npm run build`         | Production build                     |
+| `npm start`             | Serve the production build           |
+| `npm run lint`          | Run ESLint                           |
+| `npm run format`        | Check formatting with Prettier       |
+| `npm run format:fix`    | Auto-fix formatting                  |
+| `npm run test`          | Run tests in watch mode              |
+| `npm run test:run`      | Run tests once (CI mode)             |
+| `npm run test:coverage` | Run tests with Istanbul coverage     |
 
 ## Environment Variables
 
 Copy `.env.example` to `.env.local` and configure the values for your project. Required variables block the build; optional variables produce a warning if missing.
 
-| Variable | Required | Purpose | Used By |
-| --- | --- | --- | --- |
-| `NEXT_PUBLIC_SITE_URL` | Yes | Public site URL for SEO metadata and canonical links | App, SEO component |
-| `NEXT_PUBLIC_GA_ID` | No | Google Analytics measurement ID | Analytics integration |
-| `AXIOM_TOKEN` | No | Axiom API token for structured log ingestion | Axiom integration |
-| `AXIOM_DATASET` | No | Axiom dataset name for log routing | Axiom integration |
-| `SENTRY_DSN` | No | Sentry DSN for error capture | Sentry integration |
-| `SENTRY_AUTH_TOKEN` | No | Sentry auth token for source map uploads | Build process |
-| `DISCORD_WEBHOOK_URL` | No | Discord webhook for CI/CD notifications | `discord-notify.yml` |
-| `VERCEL_TOKEN` | No | Vercel deployment token | `deploy-preview.yml`, `deploy-production.yml` |
-| `NETLIFY_AUTH_TOKEN` | No | Netlify deployment token | `deploy-preview.yml`, `deploy-production.yml` |
-| `CODECOV_TOKEN` | No | Codecov upload token for coverage reports | `ci.yml` |
-| `LHCI_GITHUB_APP_TOKEN` | No | Lighthouse CI GitHub App token | `lighthouse.yml` |
-| `TRIVY_ENABLED` | No | Set to `true` to enable Trivy scanning | `security.yml` |
-| `SNYK_TOKEN` | No | Snyk API token for dependency scanning | `security.yml` |
-| `SAFETY_API_KEY` | No | Safety CLI API key for Python dependency scanning | `security.yml` |
-| `SONAR_TOKEN` | No | SonarQube token for code quality analysis | `sonarqube.yml` |
-| `QLTY_TOKEN` | No | qlty.sh token for code quality metrics | `qlty.yml` |
+| Variable                | Required | Purpose                                              | Used By                                       |
+| ----------------------- | -------- | ---------------------------------------------------- | --------------------------------------------- |
+| `NEXT_PUBLIC_SITE_URL`  | Yes      | Public site URL for SEO metadata and canonical links | App, SEO component                            |
+| `NEXT_PUBLIC_GA_ID`     | No       | Google Analytics measurement ID                      | Analytics integration                         |
+| `AXIOM_TOKEN`           | No       | Axiom API token for structured log ingestion         | Axiom integration                             |
+| `AXIOM_DATASET`         | No       | Axiom dataset name for log routing                   | Axiom integration                             |
+| `SENTRY_DSN`            | No       | Sentry DSN for error capture                         | Sentry integration                            |
+| `SENTRY_AUTH_TOKEN`     | No       | Sentry auth token for source map uploads             | Build process                                 |
+| `DISCORD_WEBHOOK_URL`   | No       | Discord webhook for CI/CD notifications              | `discord-notify.yml`                          |
+| `VERCEL_TOKEN`          | No       | Vercel deployment token                              | `deploy-preview.yml`, `deploy-production.yml` |
+| `NETLIFY_AUTH_TOKEN`    | No       | Netlify deployment token                             | `deploy-preview.yml`, `deploy-production.yml` |
+| `CODECOV_TOKEN`         | No       | Codecov upload token for coverage reports            | `ci.yml`                                      |
+| `LHCI_GITHUB_APP_TOKEN` | No       | Lighthouse CI GitHub App token                       | `lighthouse.yml`                              |
+| `TRIVY_ENABLED`         | No       | Set to `true` to enable Trivy scanning               | `security.yml`                                |
+| `SNYK_TOKEN`            | No       | Snyk API token for dependency scanning               | `security.yml`                                |
+| `SAFETY_API_KEY`        | No       | Safety CLI API key for Python dependency scanning    | `security.yml`                                |
+| `SONAR_TOKEN`           | No       | SonarQube token for code quality analysis            | `sonarqube.yml`                               |
+| `QLTY_TOKEN`            | No       | qlty.sh token for code quality metrics               | `qlty.yml`                                    |
 
 All optional secrets should be added as GitHub repository secrets for CI workflows to use them.
 
@@ -109,19 +109,19 @@ For CI-driven deployments, add `NETLIFY_AUTH_TOKEN` as a GitHub repository secre
 
 All workflows live in `.github/workflows/`. Optional integrations use a secret-guard pattern — when the required secret is missing, the job is skipped with a neutral status and a skip-notice is logged.
 
-| Workflow | Trigger | Secret Guard | Description |
-| --- | --- | --- | --- |
-| `ci.yml` | Push, PR | — | Lint (ESLint), format check (Prettier), test (Vitest) with coverage. Uploads to Codecov when `CODECOV_TOKEN` is set. |
-| `security.yml` | PR, weekly schedule | `TRIVY_ENABLED`, `SNYK_TOKEN`, `SAFETY_API_KEY` | Runs Trivy, Snyk, and Safety CLI security scans. Each scanner is independently guarded. Fails on critical/high findings. |
-| `lighthouse.yml` | PR | `LHCI_GITHUB_APP_TOKEN` | Lighthouse CI performance, accessibility, best practices, and SEO checks against configurable thresholds. |
-| `deploy-preview.yml` | PR | `VERCEL_TOKEN` or `NETLIFY_AUTH_TOKEN` | Deploys PR branches to a preview URL on the configured platform. |
-| `deploy-production.yml` | Push to main | `VERCEL_TOKEN` or `NETLIFY_AUTH_TOKEN` | Deploys the main branch to production. |
-| `sonarqube.yml` | PR, push to main | `SONAR_TOKEN` | SonarQube code quality and security analysis. |
-| `qlty.yml` | PR | `QLTY_TOKEN` | qlty.sh code quality analysis. |
-| `a11y.yml` | PR | — | axe-core accessibility testing. Fails on WCAG 2.1 Level AA violations. |
-| `stale.yml` | Daily schedule | — | Calls reusable stale bot workflow from `LUSKTECH/.github`. Labels issues inactive for 30 days, closes after 7 more. Exempts `pinned` and `security` labels. |
-| `automerge.yml` | PR (Dependabot) | — | Auto-merges Dependabot patch/minor PRs when all checks pass. |
-| `discord-notify.yml` | Workflow run | `DISCORD_WEBHOOK_URL` | Calls reusable Discord notification workflow from `LUSKTECH/.github`. Sends formatted embeds on CI events. |
+| Workflow                | Trigger             | Secret Guard                                    | Description                                                                                                                                                 |
+| ----------------------- | ------------------- | ----------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ci.yml`                | Push, PR            | —                                               | Lint (ESLint), format check (Prettier), test (Vitest) with coverage. Uploads to Codecov when `CODECOV_TOKEN` is set.                                        |
+| `security.yml`          | PR, weekly schedule | `TRIVY_ENABLED`, `SNYK_TOKEN`, `SAFETY_API_KEY` | Runs Trivy, Snyk, and Safety CLI security scans. Each scanner is independently guarded. Fails on critical/high findings.                                    |
+| `lighthouse.yml`        | PR                  | `LHCI_GITHUB_APP_TOKEN`                         | Lighthouse CI performance, accessibility, best practices, and SEO checks against configurable thresholds.                                                   |
+| `deploy-preview.yml`    | PR                  | `VERCEL_TOKEN` or `NETLIFY_AUTH_TOKEN`          | Deploys PR branches to a preview URL on the configured platform.                                                                                            |
+| `deploy-production.yml` | Push to main        | `VERCEL_TOKEN` or `NETLIFY_AUTH_TOKEN`          | Deploys the main branch to production.                                                                                                                      |
+| `sonarqube.yml`         | PR, push to main    | `SONAR_TOKEN`                                   | SonarQube code quality and security analysis.                                                                                                               |
+| `qlty.yml`              | PR                  | `QLTY_TOKEN`                                    | qlty.sh code quality analysis.                                                                                                                              |
+| `a11y.yml`              | PR                  | —                                               | axe-core accessibility testing. Fails on WCAG 2.1 Level AA violations.                                                                                      |
+| `stale.yml`             | Daily schedule      | —                                               | Calls reusable stale bot workflow from `LUSKTECH/.github`. Labels issues inactive for 30 days, closes after 7 more. Exempts `pinned` and `security` labels. |
+| `automerge.yml`         | PR (Dependabot)     | —                                               | Auto-merges Dependabot patch/minor PRs when all checks pass.                                                                                                |
+| `discord-notify.yml`    | Workflow run        | `DISCORD_WEBHOOK_URL`                           | Calls reusable Discord notification workflow from `LUSKTECH/.github`. Sends formatted embeds on CI events.                                                  |
 
 ### Reusable Workflows
 
@@ -197,4 +197,7 @@ This project is licensed under the MIT License. See [LICENSE](LICENSE) for detai
 
 ## Repobeats
 
-![Repobeats analytics image](https://repobeats.axiom.co/api/embed/PLACEHOLDER_REPOBEATS_ID.svg "Repobeats analytics image")
+![Repobeats analytics image](https://repobeats.axiom.co/api/embed/PLACEHOLDER_REPOBEATS_ID.svg 'Repobeats analytics image')
+
+AI Usage Disclaimer
+Portions of this codebase were generated with the assistance of Large Language Models (LLMs). All AI-generated code has been reviewed and tested to ensure quality and correctness.

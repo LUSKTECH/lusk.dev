@@ -3,8 +3,8 @@ export interface SEOProps {
   description: string;
   image?: string;
   url: string;
-  type?: "website" | "article";
-  twitterCard?: "summary" | "summary_large_image";
+  type?: 'website' | 'article';
+  twitterCard?: 'summary' | 'summary_large_image';
   jsonLd?: Record<string, unknown>;
 }
 
@@ -13,8 +13,8 @@ export default function SEOHead({
   description,
   image,
   url,
-  type = "website",
-  twitterCard = "summary_large_image",
+  type = 'website',
+  twitterCard = 'summary_large_image',
   jsonLd,
 }: Readonly<SEOProps>) {
   return (

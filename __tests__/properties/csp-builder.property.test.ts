@@ -1,8 +1,8 @@
 // Feature: website-template-repo, Property 11: CSP builder produces valid header from config
 
-import { describe, it, expect } from "vitest";
-import fc from "fast-check";
-import { buildCSP, type CSPConfig } from "@/lib/csp";
+import { describe, it, expect } from 'vitest';
+import fc from 'fast-check';
+import { buildCSP, type CSPConfig } from '@/lib/csp';
 
 /**
  * Arbitrary generator for CSP domain-like source strings.
@@ -13,15 +13,15 @@ const cspSourceArb: fc.Arbitrary<string> = fc.oneof(
   fc.constant("'none'"),
   fc.constant("'unsafe-inline'"),
   fc.constant("'unsafe-eval'"),
-  fc.constant("data:"),
-  fc.constant("blob:"),
-  fc.constant("https:"),
+  fc.constant('data:'),
+  fc.constant('blob:'),
+  fc.constant('https:'),
   // Domain-style sources
   fc
     .tuple(
       fc.boolean(), // wildcard subdomain?
       fc.stringMatching(/^[a-z][a-z0-9-]{1,20}$/),
-      fc.constantFrom(".com", ".org", ".net", ".io", ".dev"),
+      fc.constantFrom('.com', '.org', '.net', '.io', '.dev'),
     )
     .map(([wildcard, name, tld]) =>
       wildcard ? `*.${name}${tld}` : `https://${name}${tld}`,
@@ -35,18 +35,18 @@ const cspSourceListArb: fc.Arbitrary<string[]> = fc
 
 /** All array-type CSP directive names. */
 const ARRAY_DIRECTIVES = [
-  "default-src",
-  "script-src",
-  "style-src",
-  "img-src",
-  "connect-src",
-  "font-src",
-  "object-src",
-  "media-src",
-  "frame-src",
-  "frame-ancestors",
-  "base-uri",
-  "form-action",
+  'default-src',
+  'script-src',
+  'style-src',
+  'img-src',
+  'connect-src',
+  'font-src',
+  'object-src',
+  'media-src',
+  'frame-src',
+  'frame-ancestors',
+  'base-uri',
+  'form-action',
 ] as const;
 
 /**
@@ -66,7 +66,7 @@ const cspConfigArb: fc.Arbitrary<CSPConfig> = fc
     return fc.record(record) as fc.Arbitrary<CSPConfig>;
   });
 
-describe("Property 11: CSP builder produces valid header from config", () => {
+describe('Property 11: CSP builder produces valid header from config', () => {
   /**
    * Validates: Requirements 29.3
    *
@@ -75,34 +75,33 @@ describe("Property 11: CSP builder produces valid header from config", () => {
    * domain in the appropriate directive and conforms to CSP syntax
    * (semicolon-separated directives, space-separated sources).
    */
-  it("should produce a valid CSP string containing all configured domains with correct directive syntax", () => {
+  it('should produce a valid CSP string containing all configured domains with correct directive syntax', () => {
     fc.assert(
       fc.property(cspConfigArb, (config) => {
         const result = buildCSP(config);
 
         // Result must be a non-empty string
-        expect(typeof result).toBe("string");
+        expect(typeof result).toBe('string');
         expect(result.length).toBeGreaterThan(0);
 
         // Directives are semicolon-separated
-        const directives = result.split("; ");
+        const directives = result.split('; ');
 
         // Each directive must be either "upgrade-insecure-requests" (no sources)
         // or "directive-name source1 source2 ..."
         for (const directive of directives) {
-          if (directive === "upgrade-insecure-requests") continue;
+          if (directive === 'upgrade-insecure-requests') continue;
 
-          const parts = directive.split(" ");
+          const parts = directive.split(' ');
           // Must have at least a directive name and one source
           expect(parts.length).toBeGreaterThanOrEqual(2);
 
           // Directive name must be a known CSP directive
           const directiveName = parts[0];
           expect(
-            [
-              ...ARRAY_DIRECTIVES,
-              "upgrade-insecure-requests",
-            ].includes(directiveName as (typeof ARRAY_DIRECTIVES)[number]),
+            [...ARRAY_DIRECTIVES, 'upgrade-insecure-requests'].includes(
+              directiveName as (typeof ARRAY_DIRECTIVES)[number],
+            ),
           ).toBe(true);
 
           // Sources are space-separated (already verified by split)
@@ -110,13 +109,13 @@ describe("Property 11: CSP builder produces valid header from config", () => {
           for (const source of sources) {
             expect(source.length).toBeGreaterThan(0);
             // No source should contain a semicolon (that would break directive separation)
-            expect(source).not.toContain(";");
+            expect(source).not.toContain(';');
           }
         }
 
         // Every user-provided domain must appear in the output
         for (const [directive, sources] of Object.entries(config)) {
-          if (directive === "upgrade-insecure-requests") continue;
+          if (directive === 'upgrade-insecure-requests') continue;
           if (!Array.isArray(sources)) continue;
 
           for (const source of sources) {

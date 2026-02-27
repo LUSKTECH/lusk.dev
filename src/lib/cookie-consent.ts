@@ -5,25 +5,47 @@
  * and helpers for reading/writing/resetting consent preferences.
  */
 
-const STORAGE_KEY = "lusk-cookie-consent";
+const STORAGE_KEY = 'lusk-cookie-consent';
 
 /** All 27 EU member state ISO 3166-1 alpha-2 codes */
 const EU_COUNTRY_CODES: ReadonlySet<string> = new Set([
-  "AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR",
-  "DE", "GR", "HU", "IE", "IT", "LV", "LT", "LU", "MT", "NL",
-  "PL", "PT", "RO", "SK", "SI", "ES", "SE",
+  'AT',
+  'BE',
+  'BG',
+  'HR',
+  'CY',
+  'CZ',
+  'DK',
+  'EE',
+  'FI',
+  'FR',
+  'DE',
+  'GR',
+  'HU',
+  'IE',
+  'IT',
+  'LV',
+  'LT',
+  'LU',
+  'MT',
+  'NL',
+  'PL',
+  'PT',
+  'RO',
+  'SK',
+  'SI',
+  'ES',
+  'SE',
 ]);
 
 /** EEA countries (non-EU) and UK (post-Brexit GDPR equivalent) */
-const EEA_AND_UK_CODES: ReadonlySet<string> = new Set([
-  "IS", "LI", "NO", "UK",
-]);
+const EEA_AND_UK_CODES: ReadonlySet<string> = new Set(['IS', 'LI', 'NO', 'UK']);
 
 export interface CookieConsentState {
   essential: true;
   analytics: boolean;
   marketing: boolean;
-  region: "eu" | "ccpa" | "general";
+  region: 'eu' | 'ccpa' | 'general';
   consentedAt: string;
   version: string;
 }
@@ -38,24 +60,23 @@ export interface CookieConsentState {
  */
 export function classifyRegion(
   regionCode: string | null | undefined,
-): "eu" | "ccpa" | "general" {
+): 'eu' | 'ccpa' | 'general' {
   if (regionCode == null) {
-    return "eu";
+    return 'eu';
   }
 
   const code = regionCode.toUpperCase();
 
   if (EU_COUNTRY_CODES.has(code) || EEA_AND_UK_CODES.has(code)) {
-    return "eu";
+    return 'eu';
   }
 
-  if (code === "US-CA") {
-    return "ccpa";
+  if (code === 'US-CA') {
+    return 'ccpa';
   }
 
-  return "general";
+  return 'general';
 }
-
 
 /**
  * Persist a consent state to localStorage.

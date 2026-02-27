@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 const envSchema = z.object({
   // Required — build fails without these
@@ -18,14 +18,14 @@ const envSchema = z.object({
 export type Env = z.infer<typeof envSchema>;
 
 const optionalKeys: ReadonlyArray<keyof Env> = [
-  "NEXT_PUBLIC_GA_ID",
-  "AXIOM_TOKEN",
-  "AXIOM_DATASET",
-  "SENTRY_DSN",
-  "SENTRY_AUTH_TOKEN",
-  "DISCORD_WEBHOOK_URL",
-  "VERCEL_TOKEN",
-  "NETLIFY_AUTH_TOKEN",
+  'NEXT_PUBLIC_GA_ID',
+  'AXIOM_TOKEN',
+  'AXIOM_DATASET',
+  'SENTRY_DSN',
+  'SENTRY_AUTH_TOKEN',
+  'DISCORD_WEBHOOK_URL',
+  'VERCEL_TOKEN',
+  'NETLIFY_AUTH_TOKEN',
 ];
 
 export function validateEnv(): Env {
@@ -34,10 +34,10 @@ export function validateEnv(): Env {
   if (!result.success) {
     const missing = result.error.issues
       .filter((issue) => issue.path.length > 0)
-      .map((issue) => `  - ${issue.path.join(".")}: ${issue.message}`);
+      .map((issue) => `  - ${issue.path.join('.')}: ${issue.message}`);
 
     throw new Error(
-      `❌ Missing or invalid required environment variables:\n${missing.join("\n")}`
+      `❌ Missing or invalid required environment variables:\n${missing.join('\n')}`,
     );
   }
 

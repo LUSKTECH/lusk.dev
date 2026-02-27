@@ -5,10 +5,10 @@
  * (env var present) AND the visitor has consented to analytics cookies.
  */
 
-import type { CookieConsentState } from "@/lib/cookie-consent";
+import type { CookieConsentState } from '@/lib/cookie-consent';
 
 export interface AnalyticsConfig {
-  provider: "google-analytics" | "plausible" | "umami";
+  provider: 'google-analytics' | 'plausible' | 'umami';
   trackingId: string;
   enabled: boolean; // derived from env var presence
 }

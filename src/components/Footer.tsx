@@ -1,47 +1,47 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import Link from "next/link";
-import CookiePreferences from "@/components/CookiePreferences";
+import { useState } from 'react';
+import Link from 'next/link';
+import CookiePreferences from '@/components/CookiePreferences';
 
 const footerStyle: React.CSSProperties = {
-  borderTop: "1px solid #333",
-  padding: "2rem 1.5rem",
-  fontSize: "0.85rem",
-  color: "#999",
-  textAlign: "center",
+  borderTop: '1px solid #333',
+  padding: '2rem 1.5rem',
+  fontSize: '0.85rem',
+  color: '#999',
+  textAlign: 'center',
 };
 
 const navStyle: React.CSSProperties = {
-  display: "flex",
-  justifyContent: "center",
-  gap: "1.5rem",
-  flexWrap: "wrap",
-  marginBottom: "1rem",
+  display: 'flex',
+  justifyContent: 'center',
+  gap: '1.5rem',
+  flexWrap: 'wrap',
+  marginBottom: '1rem',
 };
 
 const linkStyle: React.CSSProperties = {
-  color: "#ccc",
-  textDecoration: "none",
+  color: '#ccc',
+  textDecoration: 'none',
 };
 
 const buttonStyle: React.CSSProperties = {
-  background: "none",
-  border: "none",
-  color: "#ccc",
-  cursor: "pointer",
-  fontSize: "0.85rem",
+  background: 'none',
+  border: 'none',
+  color: '#ccc',
+  cursor: 'pointer',
+  fontSize: '0.85rem',
   padding: 0,
-  textDecoration: "underline",
+  textDecoration: 'underline',
 };
 
 const overlayStyle: React.CSSProperties = {
-  position: "fixed",
+  position: 'fixed',
   inset: 0,
-  backgroundColor: "rgba(0, 0, 0, 0.6)",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
+  backgroundColor: 'rgba(0, 0, 0, 0.6)',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
   zIndex: 10000,
 };
 
