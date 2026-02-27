@@ -1,0 +1,78 @@
+name: Deploy Preview
+
+on:
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  vercel-preview:
+    name: Vercel Preview Deploy
+    if: ${{ secrets.VERCEL_TOKEN != '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - run: npx vitest --run
+
+      - name: Deploy to Vercel (Preview)
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          github-comment: true
+
+  vercel-skip-notice:
+    name: Vercel Skip Notice
+    if: ${{ secrets.VERCEL_TOKEN == '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "::notice::Vercel preview deploy skipped — VERCEL_TOKEN secret is not configured."
+
+  netlify-preview:
+    name: Netlify Preview Deploy
+    if: ${{ secrets.NETLIFY_AUTH_TOKEN != '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run build
+
+      - run: npx vitest --run
+
+      - name: Deploy to Netlify (Preview)
+        uses: nwtgck/actions-netlify@v3
+        with:
+          publish-dir: ./out
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: "Preview deploy from PR #${{ github.event.pull_request.number }}"
+          enable-pull-request-comment: true
+          enable-commit-comment: false
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+
+  netlify-skip-notice:
+    name: Netlify Skip Notice
+    if: ${{ secrets.NETLIFY_AUTH_TOKEN == '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "::notice::Netlify preview deploy skipped — NETLIFY_AUTH_TOKEN secret is not configured."

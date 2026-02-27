@@ -1,0 +1,91 @@
+name: Security Scans
+
+on:
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: '0 6 * * 1' # Weekly on Monday at 06:00 UTC
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  trivy:
+    name: Trivy Scan
+    if: ${{ vars.TRIVY_ENABLED == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run Trivy filesystem scan
+        uses: aquasecurity/trivy-action@0.34.1
+        with:
+          scan-type: fs
+          scan-ref: .
+          severity: CRITICAL,HIGH
+          exit-code: '1'
+          format: table
+
+  trivy-skip-notice:
+    name: Trivy Skip Notice
+    if: ${{ vars.TRIVY_ENABLED != 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "::notice::Trivy scan skipped — TRIVY_ENABLED variable is not set to 'true'."
+
+  snyk:
+    name: Snyk Scan
+    if: ${{ secrets.SNYK_TOKEN != '' }}
+    runs-on: ubuntu-latest
+    env:
+      SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Run Snyk test
+        uses: snyk/actions/node@master
+        with:
+          args: --severity-threshold=high
+
+  snyk-skip-notice:
+    name: Snyk Skip Notice
+    if: ${{ secrets.SNYK_TOKEN == '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "::notice::Snyk scan skipped — SNYK_TOKEN secret is not configured."
+
+  safety:
+    name: Safety CLI Scan
+    if: ${{ secrets.SAFETY_API_KEY != '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          pip install safety
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Run Safety check
+        env:
+          SAFETY_API_KEY: ${{ secrets.SAFETY_API_KEY }}
+        run: safety check --key "$SAFETY_API_KEY" --output screen
+
+  safety-skip-notice:
+    name: Safety Skip Notice
+    if: ${{ secrets.SAFETY_API_KEY == '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "::notice::Safety CLI scan skipped — SAFETY_API_KEY secret is not configured."

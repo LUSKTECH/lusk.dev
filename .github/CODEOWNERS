@@ -1,0 +1,23 @@
+# CODEOWNERS - Define code ownership for automatic PR review requests
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default owners for everything in the repo
+* @your-org/maintainers
+
+# Source code
+/src/ @your-org/developers
+
+# CI/CD workflows
+/.github/workflows/ @your-org/devops
+
+# Configuration files
+/*.config.* @your-org/maintainers
+/vercel.json @your-org/devops
+/netlify.toml @your-org/devops
+
+# Documentation
+/docs/ @your-org/maintainers
+README.md @your-org/maintainers
+
+# Security-related files
+SECURITY.md @your-org/security

@@ -1,0 +1,13 @@
+name: Stale Issues
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  stale:
+    uses: LUSKTECH/.github/.github/workflows/reusable-stale.yml@main
+    with:
+      days_before_stale: 30
+      days_before_close: 7
+      exempt_labels: 'pinned,security'

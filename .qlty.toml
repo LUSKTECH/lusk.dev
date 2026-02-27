@@ -1,0 +1,30 @@
+[source]
+root = "."
+
+[smells]
+enabled = true
+
+[metrics]
+enabled = true
+
+[coverage]
+enabled = true
+target = 70
+
+[duplication]
+enabled = true
+threshold = 50
+
+[plugins.eslint]
+enabled = true
+
+[plugins.prettier]
+enabled = true
+
+[quality_gates]
+  [quality_gates.default]
+  coverage_target = 70
+  duplication_threshold = 5
+  maintainability_rating = "A"
+  reliability_rating = "A"
+  security_rating = "A"

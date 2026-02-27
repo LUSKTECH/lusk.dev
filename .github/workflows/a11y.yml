@@ -1,0 +1,31 @@
+name: Accessibility
+
+on:
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  a11y:
+    name: Accessibility Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run build
+
+      - name: Start server and run axe accessibility tests
+        run: |
+          npx next start -p 3000 &
+          sleep 5
+          npx @axe-core/cli http://localhost:3000 --exit

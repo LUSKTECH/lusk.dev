@@ -1,0 +1,43 @@
+name: qlty Code Quality
+
+on:
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  qlty:
+    name: qlty Analysis
+    if: ${{ secrets.QLTY_TOKEN != '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - run: npx vitest --run --coverage
+
+      - name: Install qlty CLI
+        uses: qltysh/qlty-action/install@main
+
+      - name: Upload coverage to qlty
+        run: qlty coverage publish coverage/lcov.info
+        env:
+          QLTY_COVERAGE_TOKEN: ${{ secrets.QLTY_TOKEN }}
+
+  qlty-skip-notice:
+    name: qlty Skip Notice
+    if: ${{ secrets.QLTY_TOKEN == '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "::notice::qlty code quality analysis skipped — QLTY_TOKEN secret is not configured."

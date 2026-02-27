@@ -1,0 +1,27 @@
+name: Discord Notification
+
+on:
+  workflow_run:
+    workflows: ["CI", "Deploy Production"]
+    types: [completed]
+
+jobs:
+  notify:
+    if: ${{ secrets.DISCORD_WEBHOOK_URL != '' }}
+    uses: LUSKTECH/.github/.github/workflows/discord-notify.yml@main
+    with:
+      status: ${{ github.event.workflow_run.conclusion }}
+      title: '${{ github.event.workflow_run.name }} — ${{ github.event.workflow_run.conclusion }}'
+      description: |
+        **Repository:** ${{ github.repository }}
+        **Branch:** ${{ github.event.workflow_run.head_branch }}
+        **Triggered by:** ${{ github.event.workflow_run.actor.login }}
+      url: ${{ github.event.workflow_run.html_url }}
+    secrets:
+      DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
+
+  notify-skip-notice:
+    if: ${{ secrets.DISCORD_WEBHOOK_URL == '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "::notice::Discord notification skipped — DISCORD_WEBHOOK_URL secret is not configured."
