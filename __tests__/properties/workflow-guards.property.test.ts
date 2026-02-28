@@ -71,14 +71,14 @@ const WORKFLOW_SECRET_PAIRS: Array<{
   // qlty.yml
   {
     workflow: 'qlty.yml',
-    secret: 'QLTY_TOKEN',
-    guardPattern: 'secrets.QLTY_TOKEN',
+    secret: 'QLTY_COVERAGE_TOKEN',
+    guardPattern: 'secrets.QLTY_COVERAGE_TOKEN',
   },
   // discord-notify.yml
   {
     workflow: 'discord-notify.yml',
-    secret: 'DISCORD_WEBHOOK_URL',
-    guardPattern: 'secrets.DISCORD_WEBHOOK_URL',
+    secret: 'DISCORD_WEBHOOK',
+    guardPattern: 'secrets.DISCORD_WEBHOOK',
   },
   // ci.yml (step-level guard)
   {

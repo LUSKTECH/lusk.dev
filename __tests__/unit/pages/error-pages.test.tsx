@@ -29,7 +29,7 @@ describe('NotFound (404) page', () => {
     const doc = parseHTML(html);
     const link = doc.querySelector('a[href="/"]');
     expect(link).not.toBeNull();
-    expect(link!.textContent).toMatch(/return to home/i);
+    expect(link!.textContent).toMatch(/return home/i);
   });
 
   it('displays a user-friendly message', () => {
@@ -58,7 +58,7 @@ describe('ErrorPage (500) page', () => {
     const doc = parseHTML(html);
     const link = doc.querySelector('a[href="/"]');
     expect(link).not.toBeNull();
-    expect(link!.textContent).toMatch(/return to home/i);
+    expect(link!.textContent).toMatch(/return home/i);
   });
 
   it('renders a try again button', () => {

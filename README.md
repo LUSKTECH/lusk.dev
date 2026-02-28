@@ -1,8 +1,8 @@
 # lusk.dev
 
 [![CI](https://github.com/LUSKTECH/lusk.dev/actions/workflows/ci.yml/badge.svg)](https://github.com/LUSKTECH/lusk.dev/actions/workflows/ci.yml)
-[![codecov](https://codecov.io/gh/LUSKTECH/lusk.dev/branch/main/graph/badge.svg)](https://codecov.io/gh/LUSKTECH/lusk.dev)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=LUSKTECH_lusk.dev&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=LUSKTECH_lusk.dev)
+[![codecov](https://codecov.io/github/LUSKTECH/lusk.dev/graph/badge.svg?token=DZAKJ398QW)](https://codecov.io/github/LUSKTECH/lusk.dev)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=LUSKTECH_lusk.dev&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=LUSKTECH_lusk.dev)[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=LUSKTECH_lusk.dev&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=LUSKTECH_lusk.dev)[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=LUSKTECH_lusk.dev&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=LUSKTECH_lusk.dev)[![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=LUSKTECH_lusk.dev)](https://sonarcloud.io/summary/new_code?id=LUSKTECH_lusk.dev)[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=LUSKTECH_lusk.dev&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=LUSKTECH_lusk.dev)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 The personal developer portfolio for [Cody (lusky3)](https://github.com/lusky3), built under **Lusk Technologies, Inc.** Showcases open-source projects for WordPress, Docker, MCP servers, and more.
@@ -17,7 +17,7 @@ The personal developer portfolio for [Cody (lusky3)](https://github.com/lusky3),
 - Region-adaptive cookie consent (GDPR / CCPA / general)
 - SEO — Open Graph, Twitter Cards, JSON-LD, sitemap, robots.txt
 - Security headers — CSP, HSTS, X-Frame-Options via `netlify.toml`
-- Deployed to **Netlify**
+- Deployed to **Vercel**
 
 ## Integrations
 
@@ -77,7 +77,7 @@ Copy `.env.example` to `.env.local`. Only `NEXT_PUBLIC_SITE_URL` is required —
 
 ## Deployment
 
-Deployed to Netlify. Config lives in `netlify.toml` with security headers included.
+Deployed to Vercel. Security headers in `vercel.json`. Sentry DSN, org, and project are injected via environment variables — no hardcoded values in source.
 
 ## CI/CD Workflows
 
@@ -131,3 +131,11 @@ src/
 ## License
 
 MIT — see [LICENSE](LICENSE).
+
+## Repobeats
+
+![Alt](https://repobeats.axiom.co/api/embed/f1c91a68918a5929c8199e3a79ce282399e58a19.svg 'Repobeats analytics image')
+
+## AI Usage Disclaimer
+
+Portions of this codebase were generated with the assistance of Large Language Models (LLMs). All AI-generated code has been reviewed and tested to ensure quality and correctness.

@@ -19,6 +19,13 @@ export default defineConfig({
     coverage: {
       provider: 'istanbul',
       reporter: ['lcov', 'text'],
+      include: ['src/**/*.{ts,tsx}'],
+      exclude: [
+        'src/instrumentation.ts',
+        'src/instrumentation-client.ts',
+        'src/app/globals.css',
+        'src/app/manifest.json',
+      ],
     },
   },
 });

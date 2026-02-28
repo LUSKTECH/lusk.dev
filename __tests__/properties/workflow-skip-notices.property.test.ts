@@ -29,9 +29,9 @@ const WORKFLOW_SECRET_PAIRS: Array<{ workflow: string; secret: string }> = [
   // sonarqube.yml
   { workflow: 'sonarqube.yml', secret: 'SONAR_TOKEN' },
   // qlty.yml
-  { workflow: 'qlty.yml', secret: 'QLTY_TOKEN' },
+  { workflow: 'qlty.yml', secret: 'QLTY_COVERAGE_TOKEN' },
   // discord-notify.yml
-  { workflow: 'discord-notify.yml', secret: 'DISCORD_WEBHOOK_URL' },
+  { workflow: 'discord-notify.yml', secret: 'DISCORD_WEBHOOK' },
   // ci.yml
   { workflow: 'ci.yml', secret: 'CODECOV_TOKEN' },
 ];

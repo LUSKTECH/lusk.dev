@@ -12,11 +12,11 @@ jobs:
     outputs:
       has-discord: ${{ steps.discord-check.outputs.defined }}
     steps:
-      - name: Check DISCORD_WEBHOOK_URL
+      - name: Check DISCORD_WEBHOOK
         id: discord-check
         shell: bash
         run: |
-          if [ "${{ secrets.DISCORD_WEBHOOK_URL }}" != '' ]; then
+          if [ "${{ secrets.DISCORD_WEBHOOK }}" != '' ]; then
             echo "defined=true" >> $GITHUB_OUTPUT
           else
             echo "defined=false" >> $GITHUB_OUTPUT
@@ -35,11 +35,11 @@ jobs:
         **Triggered by:** ${{ github.event.workflow_run.actor.login }}
       url: ${{ github.event.workflow_run.html_url }}
     secrets:
-      DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
+      DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
 
   notify-skip-notice:
     needs: [check-secrets]
     if: needs.check-secrets.outputs.has-discord != 'true'
     runs-on: ubuntu-latest
     steps:
-      - run: echo "::notice::Discord notification skipped — DISCORD_WEBHOOK_URL secret is not configured."
+      - run: echo "::notice::Discord notification skipped — DISCORD_WEBHOOK secret is not configured."

@@ -1,5 +1,4 @@
-// Server-side Sentry initialization.
-// Loaded by @sentry/nextjs whenever the server handles a request.
+// Edge Sentry initialization (middleware, edge routes).
 // DSN is injected via SENTRY_DSN env var — no hardcoded values.
 
 import * as Sentry from '@sentry/nextjs';
@@ -13,8 +12,5 @@ if (dsn) {
     tracesSampleRate: process.env.NODE_ENV === 'production' ? 0.1 : 1,
     enableLogs: true,
     sendDefaultPii: true,
-    integrations: [
-      Sentry.consoleLoggingIntegration({ levels: ['warn', 'error'] }),
-    ],
   });
 }
