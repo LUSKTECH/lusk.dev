@@ -1,16 +1,18 @@
 import type { Metadata } from 'next';
-import CookieBanner from '@/components/CookieBanner';
+import './globals.css';
 import Footer from '@/components/Footer';
+import PageTransition from '@/components/PageTransition';
 import { generateOrganizationJsonLd } from '@/lib/json-ld';
 import type { SiteMetadata } from '@/lib/json-ld';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://example.com';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://lusk.dev';
 
 const siteMetadata: SiteMetadata = {
-  siteName: 'Lusk Technologies',
-  defaultTitle: 'Lusk Technologies',
-  defaultDescription: 'Website template by Lusk Technologies, Inc.',
-  defaultImage: `${siteUrl}/og-image.png`,
+  siteName: 'lusk.dev by Lusk Technologies, Inc.',
+  defaultTitle: 'lusk.dev — Open Source Developer Tools',
+  defaultDescription:
+    'Open-source tools for WordPress, Docker, and the modern developer workflow. Built by Cody at Lusk Technologies, Inc.',
+  defaultImage: `${siteUrl}/android-chrome-512x512.png`,
   siteUrl,
   organization: {
     name: 'Lusk Technologies, Inc.',
@@ -39,6 +41,17 @@ export const metadata: Metadata = {
     siteName: siteMetadata.siteName,
     type: 'website',
     locale: 'en_US',
+    title: siteMetadata.defaultTitle,
+    description: siteMetadata.defaultDescription,
+    url: siteUrl,
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: siteMetadata.defaultTitle,
+    description: siteMetadata.defaultDescription,
+  },
+  alternates: {
+    canonical: siteUrl,
   },
 };
 
@@ -52,9 +65,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <PageTransition />
         {children}
         <Footer />
-        <CookieBanner />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

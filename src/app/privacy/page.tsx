@@ -1,47 +1,42 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import SEOHead from '@/components/SEOHead';
+import Navbar from '@/components/Navbar';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://example.com';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://lusk.dev';
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy | Lusk Technologies',
+  title: 'Privacy Policy',
   description:
     'Learn how Lusk Technologies collects, uses, and protects your personal data.',
-  alternates: {
-    canonical: `${siteUrl}/privacy`,
-  },
+  alternates: { canonical: `${siteUrl}/privacy` },
 };
 
 export default function PrivacyPolicyPage() {
   return (
     <>
-      <SEOHead
-        title="Privacy Policy | Lusk Technologies"
-        description="Learn how Lusk Technologies collects, uses, and protects your personal data."
-        url={`${siteUrl}/privacy`}
-      />
-      <main>
-        <h1>Privacy Policy</h1>
-        <p>
-          <em>Last updated: [Date]</em>
-        </p>
-        <p>
-          This Privacy Policy describes how Lusk Technologies, Inc.
-          (&quot;we&quot;, &quot;us&quot;, or &quot;our&quot;) collects, uses,
-          and shares your personal information when you visit our website.
-        </p>
+      <Navbar />
+      <article className="legal-page">
+        <header className="legal-header">
+          <Link href="/" className="legal-back">
+            ← Back to home
+          </Link>
+          <h1>Privacy Policy</h1>
+          <p className="legal-updated">Last updated: February 28, 2026</p>
+        </header>
 
-        <section>
-          <h2>Data Collection</h2>
+        <div className="legal-body">
           <p>
-            We may collect the following types of information when you use our
-            website:
+            This Privacy Policy describes how Lusk Technologies, Inc.
+            (&quot;we&quot;, &quot;us&quot;, or &quot;our&quot;) collects, uses,
+            and shares your personal information when you visit lusk.dev.
           </p>
+
+          <h2>Data Collection</h2>
+          <p>We may collect the following when you use our website:</p>
           <ul>
             <li>
-              Personal information you provide directly (e.g., name, email
-              address) when filling out forms or contacting us.
+              Personal information you provide directly (e.g., email address)
+              when contacting us.
             </li>
             <li>
               Usage data collected automatically, such as IP address, browser
@@ -52,90 +47,43 @@ export default function PrivacyPolicyPage() {
               preferences.
             </li>
           </ul>
-        </section>
 
-        <section>
           <h2>Data Usage</h2>
           <p>We use the information we collect to:</p>
           <ul>
-            <li>Provide, maintain, and improve our website and services.</li>
-            <li>
-              Respond to your inquiries and communicate with you about our
-              products and services.
-            </li>
-            <li>
-              Analyze usage patterns to enhance user experience and site
-              performance.
-            </li>
-            <li>
-              Comply with legal obligations and enforce our terms of service.
-            </li>
+            <li>Provide, maintain, and improve our website.</li>
+            <li>Respond to your inquiries and communicate with you.</li>
+            <li>Analyze usage patterns to enhance user experience.</li>
+            <li>Comply with legal obligations.</li>
           </ul>
-        </section>
 
-        <section>
           <h2>Third-Party Sharing</h2>
           <p>
-            We do not sell your personal information. We may share your data
-            with third parties in the following circumstances:
+            We do not sell your personal information. We may share data with
+            service providers who assist in operating our website (e.g.,
+            analytics, hosting), when required by law, or to protect the rights
+            and safety of Lusk Technologies and its users.
           </p>
-          <ul>
-            <li>
-              With service providers who assist us in operating our website and
-              conducting our business (e.g., analytics, hosting).
-            </li>
-            <li>When required by law, regulation, or legal process.</li>
-            <li>
-              To protect the rights, property, or safety of Lusk Technologies,
-              our users, or the public.
-            </li>
-          </ul>
-        </section>
 
-        <section>
-          <h2>User Rights</h2>
+          <h2>Your Rights</h2>
           <p>
-            Depending on your jurisdiction, you may have the following rights
-            regarding your personal data:
+            Depending on your jurisdiction, you may have the right to access,
+            correct, delete, or port your personal data, restrict processing,
+            withdraw consent, or opt out of the sale of personal information.
           </p>
-          <ul>
-            <li>
-              The right to access, correct, or delete your personal information.
-            </li>
-            <li>
-              The right to restrict or object to the processing of your data.
-            </li>
-            <li>The right to data portability.</li>
-            <li>
-              The right to withdraw consent at any time where processing is
-              based on consent.
-            </li>
-            <li>
-              The right to opt out of the sale of personal information (for
-              California residents under CCPA).
-            </li>
-          </ul>
-        </section>
 
-        <section>
-          <h2>Contact Information</h2>
+          <h2>Contact</h2>
           <p>
-            If you have any questions about this Privacy Policy or our data
-            practices, please contact us at:
+            Questions about this policy? Reach out at{' '}
+            <a href="mailto:hello@lusk.dev">hello@lusk.dev</a>.
           </p>
-          <ul>
-            <li>
-              Email: <a href="mailto:[email]">[email]</a>
-            </li>
-            <li>Address: [Company Address]</li>
-          </ul>
-        </section>
 
-        <hr />
-        <p>
-          Please also review our <Link href="/terms">Terms of Service</Link>.
-        </p>
-      </main>
+          <hr />
+          <p>
+            See also: <Link href="/terms">Terms of Service</Link>
+          </p>
+        </div>
+      </article>
     </>
   );
 }

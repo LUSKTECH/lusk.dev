@@ -9,20 +9,35 @@ interface ErrorPageProps {
 
 export default function ErrorPage({ error: _error, reset }: ErrorPageProps) {
   return (
-    <main>
-      <h1>500 — Something Went Wrong</h1>
-      <p>
-        We encountered an unexpected error. Please try again later or return to
-        the home page.
+    <section
+      className="section"
+      style={{
+        minHeight: '60vh',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        textAlign: 'center',
+      }}
+    >
+      <h1 className="section-title">500 — Something Went Wrong</h1>
+      <p
+        style={{
+          color: 'var(--text-muted)',
+          marginBottom: '2rem',
+          maxWidth: 480,
+        }}
+      >
+        We encountered an unexpected error. Please try again or head back home.
       </p>
-      <p>
-        <button type="button" onClick={reset}>
+      <div style={{ display: 'flex', gap: '1rem' }}>
+        <button type="button" onClick={reset} className="hero-cta">
           Try Again
         </button>
-      </p>
-      <p>
-        <Link href="/">Return to Home</Link>
-      </p>
-    </main>
+        <Link href="/" className="about-link">
+          Return Home
+        </Link>
+      </div>
+    </section>
   );
 }
