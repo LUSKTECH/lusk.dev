@@ -50,8 +50,8 @@ jobs:
         uses: SonarSource/sonarqube-scan-action@v7
         with:
           args: >
-            -Dsonar.projectKey=lusktech_lusk.dev
-            -Dsonar.organization=lusktech
+            -Dsonar.projectKey=${{ vars.SONAR_PROJECT_KEY }}
+            -Dsonar.organization=${{ vars.SONAR_ORGANIZATION }}
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL || 'https://sonarcloud.io' }}

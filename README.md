@@ -75,6 +75,14 @@ Copy `.env.example` to `.env.local`. Only `NEXT_PUBLIC_SITE_URL` is required —
 | `SNYK_TOKEN`             | No       | Snyk vulnerability scanning |
 | `DISCORD_WEBHOOK_URL`    | No       | CI/CD Discord notifications |
 
+### Repository Variables
+
+| Variable             | Description                              |
+| -------------------- | ---------------------------------------- |
+| `SONAR_PROJECT_KEY`  | SonarCloud project key                   |
+| `SONAR_ORGANIZATION` | SonarCloud organization key              |
+| `SONAR_HOST_URL`     | SonarCloud host (default: sonarcloud.io) |
+
 ## Deployment
 
 Deployed to Vercel. Security headers in `vercel.json`. Sentry DSN, org, and project are injected via environment variables — no hardcoded values in source.
