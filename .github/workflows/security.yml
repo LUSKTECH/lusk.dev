@@ -17,6 +17,7 @@ jobs:
     outputs:
       has-snyk: ${{ steps.snyk-check.outputs.defined }}
       has-safety: ${{ steps.safety-check.outputs.defined }}
+      has-owasp: ${{ steps.owasp-check.outputs.defined }}
     steps:
       - name: Check SNYK_TOKEN
         id: snyk-check
@@ -33,6 +34,16 @@ jobs:
         shell: bash
         run: |
           if [ "${{ secrets.SAFETY_API_KEY }}" != '' ]; then
+            echo "defined=true" >> $GITHUB_OUTPUT
+          else
+            echo "defined=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Check OWASP_TOKEN
+        id: owasp-check
+        shell: bash
+        run: |
+          if [ "${{ secrets.OWASP_TOKEN }}" != '' ]; then
             echo "defined=true" >> $GITHUB_OUTPUT
           else
             echo "defined=false" >> $GITHUB_OUTPUT
@@ -120,3 +131,44 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo "::notice::Safety CLI scan skipped — SAFETY_API_KEY secret is not configured."
+
+  owasp-dependency-check:
+    name: OWASP Dependency-Check
+    needs: [check-secrets]
+    if: needs.check-secrets.outputs.has-owasp == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Run OWASP Dependency-Check
+        uses: dependency-check/Dependency-Check_Action@1.1.0
+        with:
+          project: lusk.dev
+          path: .
+          format: HTML
+          others: >
+            --nvdApiKey ${{ secrets.OWASP_TOKEN }}
+            --enableExperimental
+            --nodeAuditSkipDevDependencies
+
+      - name: Upload Dependency-Check report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: owasp-dependency-check-report
+          path: reports/
+
+  owasp-skip-notice:
+    name: OWASP Skip Notice
+    needs: [check-secrets]
+    if: needs.check-secrets.outputs.has-owasp != 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "::notice::OWASP Dependency-Check skipped — OWASP_TOKEN secret is not configured."
