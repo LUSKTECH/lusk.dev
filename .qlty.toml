@@ -15,7 +15,7 @@ target = 70
 enabled = true
 threshold = 50
 
-[plugins.eslint]
+[plugins.oxlint]
 enabled = true
 
 [plugins.prettier]

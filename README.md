@@ -50,7 +50,7 @@ npm run dev
 | ----------------------- | ---------------------------- |
 | `npm run dev`           | Development server           |
 | `npm run build`         | Production build             |
-| `npm run lint`          | ESLint                       |
+| `npm run lint`          | Oxlint                       |
 | `npm run format:fix`    | Prettier auto-fix            |
 | `npm run test:run`      | Run tests once               |
 | `npm run test:coverage` | Tests with Istanbul coverage |
