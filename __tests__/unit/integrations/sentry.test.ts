@@ -12,7 +12,7 @@ function makeConfig(overrides: Partial<SentryConfig> = {}): SentryConfig {
     dsn: 'https://test@sentry.io/123',
     enabled: true,
     environment: 'test',
-    tracesSampleRate: 1.0,
+    tracesSampleRate: 1,
     ...overrides,
   };
 }
