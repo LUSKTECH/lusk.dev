@@ -56,16 +56,23 @@ describe('sentry integration', () => {
 
   it('captureError falls back to dynamic import when no sink is set', async () => {
     const mockCapture = vi.fn();
+
+    // Mock the module before importing the code that will dynamically import it
     vi.doMock('@sentry/nextjs', () => ({
       captureException: mockCapture,
     }));
 
-    initSentry(makeConfig());
-    captureError(new Error('production error'));
+    // Re-import sentry module so its dynamic import() picks up the mock
+    const { initSentry: init, captureError: capture } =
+      await import('@/lib/sentry');
+
+    init(makeConfig());
+    capture(new Error('production error'));
 
     // Allow the dynamic import promise to resolve
-    await new Promise((r) => setTimeout(r, 50));
-    expect(mockCapture).toHaveBeenCalledTimes(1);
+    await vi.waitFor(() => {
+      expect(mockCapture).toHaveBeenCalledTimes(1);
+    });
 
     vi.doUnmock('@sentry/nextjs');
   });
