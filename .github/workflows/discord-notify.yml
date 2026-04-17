@@ -5,6 +5,9 @@ on:
     workflows: ['CI', 'Deploy Production']
     types: [completed]
 
+permissions:
+  contents: read
+
 jobs:
   check-secrets:
     name: Check Secrets
