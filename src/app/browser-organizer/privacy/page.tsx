@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import type { ReactNode } from 'react';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 
@@ -10,6 +11,63 @@ export const metadata: Metadata = {
   // home even though the site also serves on lusk.dev.
   alternates: { canonical: 'https://lusk.app/browser-organizer/privacy' },
 };
+
+const SECTIONS: { heading: string; body: ReactNode }[] = [
+  {
+    heading: 'What the extension accesses',
+    body: (
+      <ul>
+        <li>Open tab titles and URLs.</li>
+        <li>Your bookmarks.</li>
+        <li>Browsing-history visit times for bookmarked URLs.</li>
+        <li>
+          The HTTP status of bookmarked URLs, only if you enable dead-link
+          checking.
+        </li>
+      </ul>
+    ),
+  },
+  {
+    heading: 'What is sent to your AI provider',
+    body: (
+      <p>
+        Open tab titles and URLs are sent to the backend you selected to compute
+        tab groupings, stale-tab suggestions, and bookmark recommendations.
+        Before sending, query strings and fragments are stripped, embedded
+        credentials are removed, and private or loopback hosts are reduced to
+        their origin. This happens under your own AI subscription or key and is
+        subject to that provider&apos;s policy.
+      </p>
+    ),
+  },
+  {
+    heading: 'What stays on your device',
+    body: (
+      <p>
+        Bookmarks, browsing history, and dead-link HTTP checks are processed
+        entirely on your machine and are never sent anywhere.
+      </p>
+    ),
+  },
+  {
+    heading: 'What we store',
+    body: (
+      <p>
+        Your settings, tab-activity timestamps, and an undo log — all in the
+        browser&apos;s local storage on your device.
+      </p>
+    ),
+  },
+  {
+    heading: 'What we never do',
+    body: (
+      <p>
+        We never sell your data, run analytics on it, or transmit it to Lusk
+        Technologies. We operate no server that receives it.
+      </p>
+    ),
+  },
+];
 
 export default function BrowserOrganizerPrivacyPage() {
   return (
@@ -35,44 +93,12 @@ export default function BrowserOrganizerPrivacyPage() {
             server that stores it.
           </p>
 
-          <h2>What the extension accesses</h2>
-          <ul>
-            <li>Open tab titles and URLs.</li>
-            <li>Your bookmarks.</li>
-            <li>Browsing-history visit times for bookmarked URLs.</li>
-            <li>
-              The HTTP status of bookmarked URLs, only if you enable dead-link
-              checking.
-            </li>
-          </ul>
-
-          <h2>What is sent to your AI provider</h2>
-          <p>
-            Open tab titles and URLs are sent to the backend you selected to
-            compute tab groupings, stale-tab suggestions, and bookmark
-            recommendations. Before sending, query strings and fragments are
-            stripped, embedded credentials are removed, and private or loopback
-            hosts are reduced to their origin. This happens under your own AI
-            subscription or key and is subject to that provider&apos;s policy.
-          </p>
-
-          <h2>What stays on your device</h2>
-          <p>
-            Bookmarks, browsing history, and dead-link HTTP checks are processed
-            entirely on your machine and are never sent anywhere.
-          </p>
-
-          <h2>What we store</h2>
-          <p>
-            Your settings, tab-activity timestamps, and an undo log — all in the
-            browser&apos;s local storage on your device.
-          </p>
-
-          <h2>What we never do</h2>
-          <p>
-            We never sell your data, run analytics on it, or transmit it to Lusk
-            Technologies. We operate no server that receives it.
-          </p>
+          {SECTIONS.map((section) => (
+            <section key={section.heading}>
+              <h2>{section.heading}</h2>
+              {section.body}
+            </section>
+          ))}
 
           <h2>Contact</h2>
           <p>
