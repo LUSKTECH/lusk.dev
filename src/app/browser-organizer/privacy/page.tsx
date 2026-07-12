@@ -2,19 +2,20 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://lusk.dev';
-
 export const metadata: Metadata = {
   title: 'Browser Organizer — Privacy Policy',
   description: 'How the Browser Organizer browser extension handles your data.',
-  alternates: { canonical: `${siteUrl}/browser-organizer/privacy` },
+  // Hardcoded to lusk.app (not siteUrl): this is the official public URL the
+  // Chrome Web Store / Edge Add-ons listing points at, so it's the canonical
+  // home even though the site also serves on lusk.dev.
+  alternates: { canonical: 'https://lusk.app/browser-organizer/privacy' },
 };
 
 export default function BrowserOrganizerPrivacyPage() {
   return (
     <>
       <Navbar />
-      <article className="legal-page">
+      <article className="legal-page" role="main">
         <header className="legal-header">
           <Link href="/" className="legal-back">
             ← Back to home
