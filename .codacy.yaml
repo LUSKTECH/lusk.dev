@@ -1,0 +1,8 @@
+---
+# Exclude tests from Codacy static analysis: security/quality analyzers produce
+# false positives on test assertions (e.g. flagging renderToStaticMarkup output
+# passed to expect()), and test files are not shipped.
+exclude_paths:
+  - '__tests__/**'
+  - '**/*.test.ts'
+  - '**/*.test.tsx'

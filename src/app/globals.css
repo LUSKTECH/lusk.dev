@@ -217,7 +217,8 @@ a {
   align-items: center;
   gap: 0.5rem;
   padding: 0.8rem 1.8rem;
-  background: var(--accent);
+  /* Darker than --accent so white text meets WCAG AA (4.5:1); --accent itself is 4.49. */
+  background: #6a4be0;
   color: #fff;
   border-radius: 12px;
   font-weight: 600;
@@ -455,7 +456,9 @@ a {
 .card-lang {
   font-family: var(--font-mono);
   font-size: 0.72rem;
-  color: var(--text-faint);
+  color: var(
+    --text-dim
+  ); /* AA contrast; --text-faint is only 2.8:1 on the dark bg */
   display: flex;
   align-items: center;
   gap: 0.4rem;
@@ -527,7 +530,9 @@ a {
 
 .toolbox-desc {
   font-size: 0.78rem;
-  color: var(--text-faint);
+  color: var(
+    --text-dim
+  ); /* AA contrast; --text-faint is only 2.8:1 on the dark bg */
 }
 
 /* ── Contact ── */
