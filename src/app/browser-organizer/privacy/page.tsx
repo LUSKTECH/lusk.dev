@@ -6,10 +6,8 @@ import Navbar from '@/components/Navbar';
 export const metadata: Metadata = {
   title: 'Browser Organizer — Privacy Policy',
   description: 'How the Browser Organizer browser extension handles your data.',
-  // Hardcoded to lusk.app (not siteUrl): this is the official public URL the
-  // Chrome Web Store / Edge Add-ons listing points at, so it's the canonical
-  // home even though the site also serves on lusk.dev.
-  alternates: { canonical: 'https://lusk.app/browser-organizer/privacy' },
+  // The official public URL the Chrome Web Store / Edge Add-ons listing points at.
+  alternates: { canonical: 'https://lusk.dev/browser-organizer/privacy' },
 };
 
 const SECTIONS: { heading: string; body: ReactNode }[] = [
@@ -53,8 +51,10 @@ const SECTIONS: { heading: string; body: ReactNode }[] = [
     heading: 'What we store',
     body: (
       <p>
-        Your settings, tab-activity timestamps, and an undo log — all in the
-        browser&apos;s local storage on your device.
+        Your settings, tab-activity timestamps, an undo log, and — if you use
+        the OpenAI-compatible API backend — your API key encrypted at rest
+        (AES-GCM). All in the browser&apos;s local storage on your device, and
+        never synced off it.
       </p>
     ),
   },
@@ -79,7 +79,7 @@ export default function BrowserOrganizerPrivacyPage() {
             ← Back to home
           </Link>
           <h1>Browser Organizer — Privacy Policy</h1>
-          <p className="legal-updated">Last updated: July 12, 2026</p>
+          <p className="legal-updated">Last updated: July 14, 2026</p>
         </header>
 
         <div className="legal-body">
@@ -103,7 +103,7 @@ export default function BrowserOrganizerPrivacyPage() {
           <h2>Contact</h2>
           <p>
             Questions about this policy? Reach out at{' '}
-            <a href="mailto:hello@lusk.app">hello@lusk.app</a>.
+            <a href="mailto:hello@lusk.dev">hello@lusk.dev</a>.
           </p>
 
           <hr />
