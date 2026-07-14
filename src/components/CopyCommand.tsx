@@ -19,7 +19,9 @@ export default function CopyCommand({ command }: { command: string }) {
       await navigator.clipboard.writeText(command);
       setCopied(true);
       if (timer.current) clearTimeout(timer.current);
-      timer.current = setTimeout(() => setCopied(false), 2000);
+      timer.current = setTimeout(() => {
+        setCopied(false);
+      }, 2000);
     } catch {
       /* clipboard unavailable; the command stays selectable */
     }
@@ -30,7 +32,9 @@ export default function CopyCommand({ command }: { command: string }) {
       <code>{command}</code>
       <button
         type="button"
-        onClick={copy}
+        onClick={() => {
+          void copy();
+        }}
         className="bo-copy"
         aria-label={copied ? 'Command copied' : 'Copy command to clipboard'}
       >
