@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeAll } from 'vitest';
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import BrowserOrganizerPage from '@/app/browser-organizer/page';
@@ -26,7 +26,10 @@ vi.mock('@/components/ParticleBackground', () => ({
 }));
 
 describe('Browser Organizer landing page', () => {
-  const html = renderToStaticMarkup(<BrowserOrganizerPage />);
+  let html: string;
+  beforeAll(() => {
+    html = renderToStaticMarkup(<BrowserOrganizerPage />);
+  });
 
   it('renders the product name and hero', () => {
     expect(html).toContain('Browser Organizer');
