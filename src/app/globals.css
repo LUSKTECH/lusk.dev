@@ -711,5 +711,140 @@ a {
   margin: 2.5rem 0;
 }
 
+/* ── Browser Organizer landing ── */
+.bo-command {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  max-width: 520px;
+  margin-bottom: 0.9rem;
+  padding: 0.85rem 0.85rem 0.85rem 1.1rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-bright);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+}
+
+.bo-command code {
+  font-size: 0.9rem;
+  color: var(--text);
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.bo-copy {
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.4rem 0.85rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-bright);
+  background: transparent;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    color 0.2s,
+    background 0.2s;
+}
+
+.bo-copy:hover {
+  border-color: var(--accent);
+  color: var(--text);
+  background: var(--glow);
+}
+
+.bo-steps {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2.25rem;
+  max-width: 640px;
+}
+
+.bo-step {
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+}
+
+.bo-step-num {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--glow);
+  border: 1px solid rgba(124, 91, 245, 0.25);
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.bo-step h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.4rem;
+}
+
+.bo-step p {
+  color: var(--text-dim);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  margin-bottom: 0.9rem;
+}
+
+.bo-step p:last-child {
+  margin-bottom: 0;
+}
+
+.bo-step a {
+  color: var(--accent);
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.bo-step a:hover {
+  color: var(--accent-hot);
+}
+
+.bo-cta {
+  text-align: center;
+}
+
+.bo-cta-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 1.75rem;
+  font-size: 0.85rem;
+}
+
+.bo-cta-links a {
+  color: var(--text-dim);
+  transition: color 0.2s;
+}
+
+.bo-cta-links a:hover {
+  color: var(--accent);
+}
+
+@media (max-width: 640px) {
+  .bo-command {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .bo-copy {
+    align-self: flex-start;
+  }
+}
+
 /* ── Page transitions ── */
 /* Physics animation is handled in PageTransition.tsx via canvas */
