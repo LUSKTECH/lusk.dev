@@ -192,6 +192,28 @@ function Backends() {
   );
 }
 
+function Step({
+  num,
+  title,
+  children,
+}: {
+  num: number;
+  title: string;
+  children: ReactNode;
+}) {
+  return (
+    <li className="bo-step">
+      <span className="bo-step-num" aria-hidden="true">
+        {num}
+      </span>
+      <div>
+        <h3>{title}</h3>
+        {children}
+      </div>
+    </li>
+  );
+}
+
 function Install() {
   return (
     <section className="section" id="install">
@@ -203,59 +225,41 @@ function Install() {
       </p>
 
       <ol className="bo-steps">
-        <li className="bo-step">
-          <span className="bo-step-num" aria-hidden="true">
-            1
-          </span>
-          <div>
-            <h3>Load the extension</h3>
-            <p>
-              Add Browser Organizer to Chrome or Edge (unpacked today, one-click
-              from the stores soon).
-            </p>
-          </div>
-        </li>
-        <li className="bo-step">
-          <span className="bo-step-num" aria-hidden="true">
-            2
-          </span>
-          <div>
-            <h3>Install the helper</h3>
-            <p>With Node 20+ installed, run this from any terminal:</p>
-            <CopyCommand command="npx @lusktech/browser-organizer-host" />
-            <p>
-              No terminal? Grab the per-OS installer from the{' '}
-              <a
-                href={`${REPO}/releases`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                releases page
-              </a>
-              .
-            </p>
-          </div>
-        </li>
-        <li className="bo-step">
-          <span className="bo-step-num" aria-hidden="true">
-            3
-          </span>
-          <div>
-            <h3>Pick a backend</h3>
-            <p>
-              Open the side panel, choose your AI in Settings, and click
-              Analyze. See the{' '}
-              <a
-                href={`${REPO}/blob/main/INSTALL.md`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                full install guide
-              </a>{' '}
-              for details.
-            </p>
-          </div>
-        </li>
+        <Step num={1} title="Load the extension">
+          <p>
+            Add Browser Organizer to Chrome or Edge (unpacked today, one-click
+            from the stores soon).
+          </p>
+        </Step>
+        <Step num={2} title="Install the helper">
+          <p>With Node 20+ installed, run this from any terminal:</p>
+          <CopyCommand command="npx @lusktech/browser-organizer-host" />
+          <p>
+            No terminal? Grab the per-OS installer from the{' '}
+            <a
+              href={`${REPO}/releases`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              releases page
+            </a>
+            .
+          </p>
+        </Step>
+        <Step num={3} title="Pick a backend">
+          <p>
+            Open the side panel, choose your AI in Settings, and click Analyze.
+            See the{' '}
+            <a
+              href={`${REPO}/blob/main/INSTALL.md`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              full install guide
+            </a>{' '}
+            for details.
+          </p>
+        </Step>
       </ol>
     </section>
   );
