@@ -45,7 +45,8 @@ describe('Browser Organizer privacy page', () => {
 
   it('renders the contact email', () => {
     const html = renderToStaticMarkup(<BrowserOrganizerPrivacyPage />);
-    expect(html).toContain('hello@lusk.app');
+    expect(html).toContain('hello@lusk.dev');
+    expect(html).toContain('mailto:hello@lusk.dev');
   });
 
   it('links to the main privacy and terms pages', () => {
