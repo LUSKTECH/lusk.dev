@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import Navbar from '@/components/Navbar';
 import ParticleBackground from '@/components/ParticleBackground';
 import CopyCommand from '@/components/CopyCommand';
@@ -74,6 +75,24 @@ const BACKENDS: { emoji: string; name: string; note: string }[] = [
   { emoji: '🦙', name: 'Ollama', note: 'Fully local, offline' },
   { emoji: '🔌', name: 'OpenAI API', note: 'Any compatible key' },
   { emoji: '➕', name: 'And more', note: 'OpenRouter, Groq, vLLM' },
+];
+
+const SHOTS: { src: string; alt: string; caption: string }[] = [
+  {
+    src: '/browser-organizer/panel-analyze.png',
+    alt: 'The side panel after Analyze: open tabs clustered into named groups like React Docs and Daily Times, ready to review.',
+    caption: 'Analyze once, get named tab groups you approve.',
+  },
+  {
+    src: '/browser-organizer/panel-bookmarks.png',
+    alt: 'The bookmark-cleanup view listing duplicate bookmarks to delete, each with its URL, before anything is removed.',
+    caption: 'Duplicate, stale, and dead bookmarks, flagged for review.',
+  },
+  {
+    src: '/browser-organizer/panel-settings.png',
+    alt: 'Settings, showing the AI backend dropdown and toggles for grouping, stale tabs, auto-bookmarking, and dead-link checks.',
+    caption: 'Pick a backend and toggle exactly what it touches.',
+  },
 ];
 
 function Hero() {
@@ -161,6 +180,34 @@ function Features() {
             <h3>{f.title}</h3>
             <p className="card-desc">{f.body}</p>
           </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function Screenshots() {
+  return (
+    <section className="section" id="screenshots">
+      <span className="section-label">Screenshots</span>
+      <h2 className="section-heading">A look inside the panel</h2>
+      <p className="section-desc">
+        Everything runs from one side panel. Here it is grouping tabs, cleaning
+        up bookmarks, and letting you choose the AI that does the work.
+      </p>
+      <div className="bo-shots">
+        {SHOTS.map((s) => (
+          <figure className="bo-shot" key={s.src}>
+            <Image
+              src={s.src}
+              alt={s.alt}
+              width={398}
+              height={512}
+              sizes="(max-width: 640px) 360px, 320px"
+              style={{ width: '100%', height: 'auto' }}
+            />
+            <figcaption>{s.caption}</figcaption>
+          </figure>
         ))}
       </div>
     </section>
@@ -305,6 +352,8 @@ export default function BrowserOrganizerPage() {
       <main>
         <Hero />
         <Features />
+        <div className="divider" />
+        <Screenshots />
         <div className="divider" />
         <Backends />
         <div className="divider" />

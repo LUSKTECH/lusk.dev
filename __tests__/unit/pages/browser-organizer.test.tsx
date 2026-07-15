@@ -42,6 +42,14 @@ describe('Browser Organizer landing page', () => {
     expect(html).toContain('Up and running in minutes');
   });
 
+  it('shows the screenshots gallery', () => {
+    expect(html).toContain('A look inside the panel');
+    expect(html).toContain('Analyze once, get named tab groups you approve.');
+    expect(html).toContain(
+      'Pick a backend and toggle exactly what it touches.',
+    );
+  });
+
   it('shows the install command', () => {
     expect(html).toContain('npx @lusktech/browser-organizer-host');
   });
