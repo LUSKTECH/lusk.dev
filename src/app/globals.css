@@ -535,6 +535,60 @@ a {
   ); /* AA contrast; --text-faint is only 2.8:1 on the dark bg */
 }
 
+/* ── Screenshots ── */
+.bo-shots {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.75rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.bo-shot {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.bo-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  box-shadow: 0 18px 40px -24px rgba(0, 0, 0, 0.85);
+  transition:
+    transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.25s,
+    box-shadow 0.25s;
+}
+
+.bo-shot:hover img {
+  transform: translateY(-6px);
+  border-color: var(--border-bright);
+  box-shadow:
+    0 28px 60px -26px var(--glow),
+    0 18px 40px -24px rgba(0, 0, 0, 0.85);
+}
+
+.bo-shot figcaption {
+  text-align: center;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--text-dim);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bo-shot img {
+    transition: border-color 0.25s;
+  }
+  .bo-shot:hover img {
+    transform: none;
+  }
+}
+
 /* ── Contact ── */
 .contact-section {
   text-align: center;
@@ -598,6 +652,9 @@ a {
   .toolbox-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+  .bo-shots {
+    gap: 1.25rem;
+  }
   .featured-project {
     padding: 2rem;
   }
@@ -621,6 +678,10 @@ a {
   }
   .toolbox-grid {
     grid-template-columns: 1fr 1fr;
+  }
+  .bo-shots {
+    grid-template-columns: 1fr;
+    max-width: 360px;
   }
   .hero-actions {
     flex-direction: column;
