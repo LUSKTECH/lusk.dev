@@ -45,7 +45,9 @@ describe('Browser Organizer landing page', () => {
   it('shows the screenshots gallery', () => {
     expect(html).toContain('A look inside the panel');
     expect(html).toContain('Analyze once, get named tab groups you approve.');
-    expect(html).toContain('Pick a backend and toggle exactly what it touches.');
+    expect(html).toContain(
+      'Pick a backend and toggle exactly what it touches.',
+    );
   });
 
   it('shows the install command', () => {
