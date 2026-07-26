@@ -25,6 +25,9 @@ jobs:
 
       - run: npm ci
 
+      - name: Install matching Chrome and ChromeDriver
+        run: npx browser-driver-manager install chrome
+
       - run: npm run build
 
       - name: Start server and run axe accessibility tests
