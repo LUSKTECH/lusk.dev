@@ -62,7 +62,7 @@ describe('Property 10: Environment validation distinguishes required vs optional
             }
           }
 
-          process.env = testEnv;
+          process.env = testEnv as NodeJS.ProcessEnv;
 
           const { validateEnv } = await import('@/lib/env');
           expect(() => validateEnv()).not.toThrow();
@@ -100,7 +100,7 @@ describe('Property 10: Environment validation distinguishes required vs optional
             }
           }
 
-          process.env = testEnv;
+          process.env = testEnv as NodeJS.ProcessEnv;
 
           const { validateEnv } = await import('@/lib/env');
           expect(() => validateEnv()).toThrow();
@@ -139,7 +139,7 @@ describe('Property 10: Environment validation distinguishes required vs optional
             }
           }
 
-          process.env = testEnv;
+          process.env = testEnv as NodeJS.ProcessEnv;
 
           const { validateEnv } = await import('@/lib/env');
           validateEnv();
