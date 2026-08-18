@@ -156,10 +156,7 @@ jobs:
           project: lusk.dev
           path: .
           format: HTML
-          others: >
-            --nvdApiKey ${{ secrets.OWASP_TOKEN }}
-            --enableExperimental
-            --nodeAuditSkipDevDependencies
+          others: --nvdApiKey=${{ secrets.OWASP_TOKEN }}
 
       - name: Upload Dependency-Check report
         if: always()
