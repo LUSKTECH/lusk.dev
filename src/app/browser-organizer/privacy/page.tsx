@@ -53,15 +53,17 @@ const SECTIONS: { heading: string; body: ReactNode }[] = [
       <p>
         Your settings (which features are on, your protected folders and
         domains, and your chosen AI backend) are saved using Chrome&apos;s
-        built-in synced storage. If you have Chrome Sync turned on, this follows
-        you to your other signed-in Chrome browsers the same way your bookmarks
-        or browser preferences do — this data passes through Google&apos;s
-        Chrome Sync infrastructure, not through us. With Chrome Sync off, it
-        stays on-device like everything else below. Tab-activity timestamps, the
-        undo log, and — if you use the OpenAI-compatible API backend — your API
-        key encrypted at rest (AES-GCM) are kept in local storage only and are
-        never synced anywhere. None of it is ever sent to Lusk Technologies; we
-        operate no server that stores it.
+        built-in synced storage. If you have Chrome Sync turned on and
+        haven&apos;t excluded extensions from what syncs (Chrome lets you toggle
+        data types like Extensions individually under Sync settings), this
+        follows you to your other signed-in Chrome browsers the same way your
+        bookmarks or browser preferences do — this data passes through
+        Google&apos;s Chrome Sync infrastructure, not through us. With Sync off,
+        or with Extensions excluded from it, it stays on-device like everything
+        else below. Tab-activity timestamps, the undo log, and — if you use the
+        OpenAI-compatible API backend — your API key encrypted at rest (AES-GCM)
+        are kept in local storage only and are never synced anywhere. None of it
+        is ever sent to Lusk Technologies; we operate no server that stores it.
       </p>
     ),
   },
