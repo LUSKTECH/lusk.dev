@@ -21,7 +21,7 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@sentry/nextjs": "^10.74.0",
+    "@sentry/nextjs": "^10.75.2",
     "next": "16.4.2",
     "next-axiom": "1.10.0",
     "react": "19.3.1",
