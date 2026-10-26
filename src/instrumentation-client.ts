@@ -11,8 +11,6 @@ if (dsn) {
     dsn,
     environment: process.env.NODE_ENV ?? 'development',
     tracesSampleRate: process.env.NODE_ENV === 'production' ? 0.1 : 1,
-    enableLogs: true,
-    sendDefaultPii: true,
     integrations: [
       Sentry.replayIntegration(),
       Sentry.consoleLoggingIntegration({ levels: ['warn', 'error'] }),
