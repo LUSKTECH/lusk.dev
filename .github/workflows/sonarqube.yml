@@ -16,7 +16,7 @@ concurrency:
 jobs:
   check-secrets:
     name: Check Secrets
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     outputs:
       has-sonar: ${{ steps.sonar-check.outputs.defined }}
     steps:
@@ -34,7 +34,7 @@ jobs:
     name: SonarQube Scan
     needs: [check-secrets]
     if: needs.check-secrets.outputs.has-sonar == 'true'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@v7
         with:
@@ -42,7 +42,7 @@ jobs:
 
       - uses: actions/setup-node@v7
         with:
-          node-version: 22
+          node-version: 24
           cache: npm
 
       - run: npm ci
@@ -64,6 +64,6 @@ jobs:
     name: SonarQube Skip Notice
     needs: [check-secrets]
     if: needs.check-secrets.outputs.has-sonar != 'true'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     steps:
       - run: echo "::notice::SonarQube analysis skipped — SONAR_TOKEN secret is not configured."
