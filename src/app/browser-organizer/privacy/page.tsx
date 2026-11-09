@@ -31,9 +31,14 @@ const SECTIONS: { heading: string; body: ReactNode }[] = [
       <p>
         Open tab titles and URLs are sent to the backend you selected to compute
         tab groupings, stale-tab suggestions, bookmark recommendations, and
-        typed commands. If you turn on &ldquo;Sort bookmarks&rdquo; (off by
-        default), the title, URL, and folder path of each bookmark being sorted
-        are also sent, along with your list of folder names. Before sending,
+        typed commands; for a typed command, the text you type is sent as well.
+        If you turn on &ldquo;Sort bookmarks&rdquo; (off by default), the title,
+        URL, folder path and browser-assigned ID of each bookmark being sorted
+        are also sent, along with your folder names and their IDs (the IDs let
+        the extension map suggestions back to your bookmarks). When you reject
+        the same suggestion twice, a short &ldquo;don&rsquo;t suggest&rdquo;
+        note is added to later requests so it stays away; it can contain a
+        cleaned link, a group name or a bookmark ID. Before sending,
         query strings and fragments are stripped, embedded credentials are
         removed, and private or loopback hosts are reduced to their origin.
         Protected folders, the Bookmarks Bar (while &ldquo;Never touch the
