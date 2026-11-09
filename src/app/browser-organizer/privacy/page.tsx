@@ -38,12 +38,12 @@ const SECTIONS: { heading: string; body: ReactNode }[] = [
         the extension map suggestions back to your bookmarks). When you reject
         the same suggestion twice, a short &ldquo;don&rsquo;t suggest&rdquo;
         note is added to later requests so it stays away; it can contain a
-        cleaned link, a group name or a bookmark ID. Before sending,
-        query strings and fragments are stripped, embedded credentials are
-        removed, and private or loopback hosts are reduced to their origin.
-        Protected folders, the Bookmarks Bar (while &ldquo;Never touch the
-        Bookmarks Bar&rdquo; is on), and protected domains are never sent. This
-        happens under your own AI subscription or key and is subject to that
+        cleaned link, a group name or a bookmark ID. Before sending, query
+        strings and fragments are stripped, embedded credentials are removed,
+        and private or loopback hosts are reduced to their origin. Protected
+        folders, the Bookmarks Bar (while &ldquo;Never touch the Bookmarks
+        Bar&rdquo; is on), and protected domains are never sent. This happens
+        under your own AI subscription or key and is subject to that
         provider&apos;s policy.
       </p>
     ),
