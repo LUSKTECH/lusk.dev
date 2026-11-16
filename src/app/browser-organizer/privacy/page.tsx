@@ -30,11 +30,21 @@ const SECTIONS: { heading: string; body: ReactNode }[] = [
     body: (
       <p>
         Open tab titles and URLs are sent to the backend you selected to compute
-        tab groupings, stale-tab suggestions, and bookmark recommendations.
-        Before sending, query strings and fragments are stripped, embedded
-        credentials are removed, and private or loopback hosts are reduced to
-        their origin. This happens under your own AI subscription or key and is
-        subject to that provider&apos;s policy.
+        tab groupings, stale-tab suggestions, bookmark recommendations, and
+        typed commands; for a typed command, the text you type is sent as well.
+        If you turn on &ldquo;Sort bookmarks&rdquo; (off by default), the title,
+        URL, folder path and browser-assigned ID of each bookmark being sorted
+        are also sent, along with your folder names and their IDs (the IDs let
+        the extension map suggestions back to your bookmarks). When you reject
+        the same suggestion twice, a short &ldquo;don&rsquo;t suggest&rdquo;
+        note is added to later requests so it stays away; it can contain a
+        cleaned link, a group name or a bookmark ID. Before sending, query
+        strings and fragments are stripped, embedded credentials are removed,
+        and private or loopback hosts are reduced to their origin. Protected
+        folders, the Bookmarks Bar (while &ldquo;Never touch the Bookmarks
+        Bar&rdquo; is on), and protected domains are never sent. This happens
+        under your own AI subscription or key and is subject to that
+        provider&apos;s policy.
       </p>
     ),
   },
@@ -42,8 +52,12 @@ const SECTIONS: { heading: string; body: ReactNode }[] = [
     heading: 'What stays on your device',
     body: (
       <p>
-        Bookmarks, browsing history, and dead-link HTTP checks are processed
-        entirely on your machine and are never sent anywhere.
+        Browsing history (only visit times are read, on your machine), dead-link
+        checks (plain HTTP requests from your browser to the bookmarked sites
+        themselves), grouping rules, duplicate removal, snoozing, and bookmark
+        backups are processed entirely on your machine. None of that is sent to
+        an AI provider. Bookmarks are sent only by &ldquo;Sort bookmarks&rdquo;,
+        as described above.
       </p>
     ),
   },
@@ -60,10 +74,13 @@ const SECTIONS: { heading: string; body: ReactNode }[] = [
         bookmarks or browser preferences do — this data passes through
         Google&apos;s Chrome Sync infrastructure, not through us. With Sync off,
         or with Extensions excluded from it, it stays on-device like everything
-        else below. Tab-activity timestamps, the undo log, and — if you use the
-        OpenAI-compatible API backend — your API key encrypted at rest (AES-GCM)
-        are kept in local storage only and are never synced anywhere. None of it
-        is ever sent to Lusk Technologies; we operate no server that stores it.
+        else below. Tab-activity timestamps, the undo log, snoozed tabs (title,
+        URL, wake time), up to three automatic copies of your bookmark tree
+        (taken before a run that deletes or moves bookmarks, kept 30 days), and
+        — if you use the OpenAI-compatible API backend — your API key encrypted
+        at rest (AES-GCM) are kept in local storage only and are never synced
+        anywhere. None of it is ever sent to Lusk Technologies; we operate no
+        server that stores it.
       </p>
     ),
   },
@@ -88,7 +105,7 @@ export default function BrowserOrganizerPrivacyPage() {
             ← Back to home
           </Link>
           <h1>Browser Organizer — Privacy Policy</h1>
-          <p className="legal-updated">Last updated: September 23, 2026</p>
+          <p className="legal-updated">Last updated: November 8, 2026</p>
         </header>
 
         <div className="legal-body">
